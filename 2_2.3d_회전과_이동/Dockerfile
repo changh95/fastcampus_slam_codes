@@ -29,8 +29,8 @@ RUN cd / && \
     ninja -j4 && \
     ninja install
 
-RUN git clone https://github.com/changh95/3d_pose_viewer.git && \
-    cd 3d_pose_viewer &&\
+RUN git clone https://github.com/changh95/fastcampus_slam_codes.git && \
+    cd fastcampus_slam_codes/2_2.3d_회전과_이동 &&\
     mkdir build && cd build && \
     cmake -GNinja ../ && \
     ninja
