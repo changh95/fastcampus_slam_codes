@@ -9,4 +9,4 @@ if (OpenCV_FOUND)
 endif (OpenCV_FOUND)
 
 add_executable(orb_feature_matching examples/orb_feature_matching.cpp)
-target_link_libraries(orb_feature_matching ${OPENCV_LIBS})
+target_link_libraries(orb_feature_matching ${OpenCV_LIBS})
