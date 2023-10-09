@@ -76,9 +76,9 @@ RUN wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip 
 
 # Ceres-solver
 RUN apt-get install -y libgoogle-glog-dev libgflags-dev libatlas-base-dev libsuitesparse-dev &&\
-    wget https://github.com/ceres-solver/ceres-solver/archive/refs/tags/1.14.0.zip &&\
-    unzip 1.14.0.zip &&\
-    cd ceres-solver-1.14.0 && \
+    wget https://github.com/ceres-solver/ceres-solver/archive/refs/tags/2.1.0.zip &&\
+    unzip 2.1.0.zip &&\
+    cd ceres-solver-2.1.0 && \
     mkdir build && cd build &&\
     cmake .. &&\
     make -j4 &&\
