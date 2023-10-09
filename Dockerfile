@@ -85,8 +85,4 @@ RUN apt-get install -y libgoogle-glog-dev libgflags-dev libatlas-base-dev libsui
     make install &&\
     cd ../../
 
-RUN git clone https://github.com/changh95/fastcampus_slam_codes.git &&\
-    cd fastcampus_slam_codes/1_7.cpp_기초 &&\
-    mkdir build && cd build &&\
-    cmake .. &&\
-    make -j
+RUN git clone https://github.com/changh95/fastcampus_slam_codes.git
