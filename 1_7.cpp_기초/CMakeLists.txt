@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(INTRO_TO_CPP LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
-message(STATUS "Compile options: -Wall -Wextra -Wpedantic -Werror")
+#message(STATUS "Compile options: -Wall -Wextra -Wpedantic -Werror")
 #add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 
 # Terminate build if build option is invalid (i.e. Not Debug or Release)
