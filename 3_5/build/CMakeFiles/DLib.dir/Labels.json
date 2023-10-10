@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/CMakeFiles/DLib"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/CMakeFiles/DLib.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/CMakeFiles/DLib-complete.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/dependencies/src/DLib-stamp/DLib-build.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/dependencies/src/DLib-stamp/DLib-configure.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/dependencies/src/DLib-stamp/DLib-download.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/dependencies/src/DLib-stamp/DLib-install.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/dependencies/src/DLib-stamp/DLib-mkdir.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/dependencies/src/DLib-stamp/DLib-patch.rule"
+		},
+		{
+			"file" : "/Users/hyunggi/fastcampus_slam_codes/3_5/build/dependencies/src/DLib-stamp/DLib-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"DLib"
+		],
+		"name" : "DLib"
+	}
+}
