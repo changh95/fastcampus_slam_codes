@@ -1,1 +1,0 @@
-cmd='/opt/homebrew/Cellar/cmake/3.26.4/bin/cmake;-DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>;-GUnix Makefiles;-S;<SOURCE_DIR><SOURCE_SUBDIR>;-B;<BINARY_DIR>'
