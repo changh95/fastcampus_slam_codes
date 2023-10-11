@@ -30,6 +30,13 @@ elseif(CMAKE_BUILD_TYPE MATCHES "Release")
 endif()
 
 # ------------------------------------------
+# Dependencies
+# ------------------------------------------
+
+find_package(OpenCV REQUIRED)
+find_package(Eigen3 REQUIRED)
+
+# ------------------------------------------
 # Executable
 # ------------------------------------------
 
@@ -40,3 +47,11 @@ add_executable(for_loop examples/for_loop.cpp)
 add_executable(while_loop examples/while_loop.cpp)
 add_executable(template_function examples/template_function.cpp)
 add_executable(template_class examples/template_class.cpp)
+
+add_executable(opencv examples/opencv.cpp)
+target_link_libraries(opencv ${OpenCV_LIBS})
+
+message(STATUS $ENV{Eigen3_INCLUDE_DIR})
+
+add_executable(eigen examples/eigen.cpp)
+target_link_libraries(eigen Eigen3::Eigen)
