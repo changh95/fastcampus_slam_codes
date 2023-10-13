@@ -12,6 +12,11 @@ else (${Pangolin_FOUND})
     message(STATUS "Could not support Pangolin")
 endif (${Pangolin_FOUND})
 
+find_package(Eigen3 REQUIRED)
+
 # Executable
+add_executable(eigen examples/eigen.cpp)
+target_link_libraries(eigen Eigen3::Eigen)
+
 add_executable(pose_viewer examples/pose_viewer.cpp)
 target_link_libraries(pose_viewer ${Pangolin_LIBRARIES})
