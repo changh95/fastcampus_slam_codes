@@ -19,10 +19,22 @@ int main() {
   std::cout << "m*m2 = " << std::endl << m * m2 << "\n\n";
   std::cout << "m+m2 = " << std::endl << m + m2 << "\n\n";
 
+  Eigen::Matrix3d zero_mat = Eigen::Matrix3d::Zero();
+  Eigen::Matrix<double, 3, 3> zero_mat2 = Eigen::Matrix3d::Zero();
+
+  std::cout << "zero_mat = " << std::endl << zero_mat << "\n\n";
+  std::cout << "zero_mat2 = " << std::endl << zero_mat2 << "\n\n";
+
   // Vectors
   Eigen::VectorXd v(2);
   v << 1.0, 2.0;
 
+  Eigen::Vector3d v2 = {1,2,3};
+  Eigen::Vector3d zero_vec = Eigen::Vector3d::Zero();
+
+  std::cout << "v = " << std::endl << v << "\n\n";
+  std::cout << "v2 = " << std::endl << v2 << "\n\n";
+  std::cout << "zero_vec = " << std::endl << zero_vec << "\n\n";
   std::cout << "m*v = " << std::endl << m * v << "\n\n";
 
   // Solving linear systems
