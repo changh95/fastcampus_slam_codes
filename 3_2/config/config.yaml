@@ -1,5 +1,5 @@
 superpoint:
-  max_keypoints: 500
+  max_keypoints: 300
   keypoint_threshold: 0.004
   remove_borders: 4 
   input_tensor_names: 
@@ -12,8 +12,8 @@ superpoint:
   dla_core: -1
 
 superglue:
-  image_width: 320
-  image_height: 240
+  image_width: 640
+  image_height: 480
   input_tensor_names:
     - "keypoints_0"
     - "scores_0"
