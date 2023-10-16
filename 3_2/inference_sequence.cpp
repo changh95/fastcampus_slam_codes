@@ -9,14 +9,14 @@
 #include "super_point.h"
 
 int main(int argc, char** argv){
-    if (argc != 5) {
+    if (argc != 3) {
         std::cerr << "./superpointglue_sequence config_path image_folder_absolutely_path" << std::endl;
         return 0;
     }
 
     std::string config_path = argv[1];
     std::string model_dir = "weights";
-    std::string image_path = argv[3];
+    std::string image_path = argv[2];
     std::vector<std::string> image_names;
     GetFileNames(image_path, image_names);
     Configs configs(config_path, model_dir);
