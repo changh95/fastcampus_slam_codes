@@ -15,7 +15,7 @@ RUN apt-get update -y && \
 
 RUN apt-get install libyaml-cpp-dev -y
     
-RUN cd ~ && \
+RUN cd / && \
     git clone https://github.com/changh95/fastcampus_slam_codes.git && \
     cd fastcampus_slam_codes/3_2 &&\
     mkdir build && cd build && cmake .. && make -j4

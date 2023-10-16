@@ -81,6 +81,9 @@ static void VisualizeMatching(const cv::Mat &image0, const std::vector<cv::KeyPo
         cv::putText(output_image, time_str, cv::Point(int(8 * sc), ht * 4), cv::FONT_HERSHEY_DUPLEX, 1.0 * sc,
                     cv::Scalar(255, 255, 255), 1, cv::LINE_AA);
     }
+    
+    cv::imshow("output", output_image);
+    cv::waitKey(0);
 }
 
 #endif //UTILS_H
