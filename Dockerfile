@@ -21,14 +21,6 @@ RUN apt-get install build-essential -y && \
     apt-get install -y cmake && \
     apt-get install -y rsync && \
     apt-get install -y tar && \
-    apt-get install -y mesa-utils && \
-    apt-get install -y libgl1-mesa-glx && \
-    apt-get install -y libglu1-mesa-dev && \
-    apt-get install -y libglew-dev &&\
-    apt-get install -y libglvnd-dev &&\
-    apt-get install -y libgl1-mesa-dev &&\
-    apt-get install -y libegl1-mesa-dev &&\
-    apt-get install -y mesa-common-dev && \
     apt-get install -y x11-utils && \
     apt-get install -y x11-apps && \
     apt-get install -y zip &&\
@@ -65,6 +57,15 @@ RUN wget https://github.com/strasdat/Sophus/archive/refs/tags/1.22.10.zip &&\
     cd ../../
 
 # Pangolin
+RUN apt-get install -y mesa-utils && \
+    apt-get install -y libgl1-mesa-glx && \
+    apt-get install -y libglu1-mesa-dev && \
+    apt-get install -y libglew-dev &&\
+    apt-get install -y libglvnd-dev &&\
+    apt-get install -y libgl1-mesa-dev &&\
+    apt-get install -y libegl1-mesa-dev &&\
+    apt-get install -y mesa-common-dev
+
 RUN wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip &&\
     unzip v0.6.zip &&\
     cd Pangolin-0.6 &&\
@@ -73,6 +74,9 @@ RUN wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip 
     make -j4 &&\
     make install &&\
     cd ../../
+    
+# PCL
+RUN apt-get install -y libpcl-dev
 
 # Ceres-solver
 RUN apt-get install -y libgoogle-glog-dev libgflags-dev libatlas-base-dev libsuitesparse-dev &&\
