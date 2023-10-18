@@ -27,6 +27,7 @@ RUN apt-get install build-essential -y && \
     apt-get clean
 
 # OpenCV
+RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.8.1.zip &&\
     unzip 4.8.1.zip &&\
     cd opencv-4.8.1 &&\
