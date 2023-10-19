@@ -36,3 +36,8 @@ add_executable(for_loop examples/for_loop.cpp)
 add_executable(while_loop examples/while_loop.cpp)
 add_executable(template_function examples/template_function.cpp)
 add_executable(template_class examples/template_class.cpp)
+
+find_package(OpenCV REQUIRED)
+
+add_executable(opencv examples/opencv.cpp)
+target_link_libraries(opencv ${OpenCV_LIBS})
