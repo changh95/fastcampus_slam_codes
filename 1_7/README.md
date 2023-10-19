@@ -2,6 +2,37 @@
 
 This is a repository for introductory lessons on C++ programming for SLAM.
 
+# How to build
+
+Dependencies: OpenCV
+
+Local build
+```
+mkdir build 
+cd build
+cmake ..
+make -j
+```
+
+Docker build
+```
+docker build . -t slam:1_7
+```
+
+# How to run
+
+Local
+```
+./build/for_loop
+./build/map
+```
+
+Docker
+```
+xhost +local:docker
+docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro slam:1_7
+```
+
 ---
 
 ## CMakeLists.txt
@@ -42,3 +73,4 @@ Make sure you understand the followings:
 - How to run docker container
   - with X11 forwarding
   - with volume binding
+
