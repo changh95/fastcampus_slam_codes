@@ -63,4 +63,10 @@ int main() {
   cv::Mat E = cv::findEssentialMat(pts_left, pts_right, focal, pp, cv::RANSAC,
                                    0.999, 1.0);
   std::cout << "E = " << std::endl << E << std::endl;
+
+  // Recover pose
+  cv::Mat R, t;
+  cv::recoverPose(E, pts_left, pts_right, R, t, focal, pp);
+  std::cout << "R = " << std::endl << R << std::endl;
+  std::cout << "t = " << std::endl << t << std::endl;
 }
