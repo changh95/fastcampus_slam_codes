@@ -25,7 +25,7 @@ Requires base build
 
 ```
 docker build . -t slam:5_2
-docker run -it --env DISPLAY=$DISPLAY -v ~/kitti:/data -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:5_2
+docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:5_2
 
 # Inside docker container
 cd fastcampus_slam_codes/5_2
