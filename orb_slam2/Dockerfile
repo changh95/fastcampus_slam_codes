@@ -31,4 +31,5 @@ RUN apt-get install -y libgl1-mesa-dev libwayland-dev libxkbcommon-dev wayland-p
 RUN apt-get install -y libboost-all-dev libssl-dev
 RUN git clone https://github.com/changh95/Portable_ORB_SLAM2.git &&\
     cd Portable_ORB_SLAM2 &&\
-    python3 ./buildDeps.py
+    python3 ./buildDeps.py &&\
+    python3 ./build.py
