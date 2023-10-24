@@ -36,4 +36,4 @@ RUN python3 setup.py develop
 
 WORKDIR /repository
 
-CMD ["bash", "-c", ". ./scripts/download_kitti_example.sh && mv /repository/data/kitti_example/sequences/00/* /data/ && mkdir -p /data/results && cd /repository && python3 shine_batch.py ./config/kitti/docker_kitti_batch.yaml"]
+CMD ["bash", "-c", "cp -r /kitti/sequences/00/* /data/ && mkdir -p /data/results && cd /repository && python3 shine_batch.py ./config/kitti/docker_kitti_batch.yaml"]
