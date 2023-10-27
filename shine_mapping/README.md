@@ -63,3 +63,8 @@ If you want to use an example part of the dataset (seq 00) for the test, you can
 sh ./scripts/download_kitti_example.sh
 ```
 
+---
+
+## Output
+
+![](./shine-mapping.gif)
