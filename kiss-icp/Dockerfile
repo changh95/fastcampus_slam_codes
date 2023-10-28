@@ -26,4 +26,5 @@ RUN apt-get install build-essential -y && \
     apt-get clean
 
 # KISS-ICP
+RUN pip3 install open3d
 RUN pip3 install kiss-icp
