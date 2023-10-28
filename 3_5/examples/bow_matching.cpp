@@ -4,8 +4,6 @@
 #include <opencv2/highgui.hpp>
 
 #include <iostream>
-#include <memory>
-#include <string>
 #include <vector>
 
 int main() {
@@ -20,7 +18,8 @@ int main() {
   const auto feature_detector = cv::ORB::create();
   std::vector<std::vector<cv::Mat>> v_descriptors;
 
-  for (const auto &img : images) {
+  // Feature extraction
+  for (auto &img : images) {
     std::vector<cv::KeyPoint> keypoints;
     cv::Mat descriptors;
     feature_detector->detectAndCompute(img, cv::Mat(), keypoints, descriptors);
@@ -38,29 +37,20 @@ int main() {
   const DBoW2::WeightingType weight = DBoW2::TF_IDF;
   const DBoW2::ScoringType score = DBoW2::L1_NORM;
 
-  DBoW2::OrbVocabulary voc(k, L, weight, score);
+  OrbVocabulary voc(k, L, weight, score);
   voc.create(v_descriptors);
   voc.save("vocabulary.yml.gz");
 
   // Global feature database creation
-  DBoW2::OrbDatabase db(voc, false, 0);
-
+  OrbDatabase db(voc, false, 0);
   for (int i = 0; i < images.size(); i++) {
     db.add(v_descriptors[i]);
   }
 
   // Query
-  for (int i = 0; i < images.size(); i++) {
     DBoW2::QueryResults ret;
-    db.query(v_descriptors[i], ret, 4);
-
+  for (int i = 0; i < images.size(); i++) {
+    db.query(v_descriptors[i], ret, 5);
     std::cout << "Searching for image " << i << ". " << ret << std::endl;
   }
-
-  //  // create vocabulary
-  //  DBoW2::OrbVocabulary vocab;
-  //  vocab.create(descriptors);
-  //  cout << "vocabulary info: " << vocab << endl;
-  //  vocab.save("vocabulary.yml.gz");
-  //  cout << "done" << endl;
 }
