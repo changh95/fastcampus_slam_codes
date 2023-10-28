@@ -8,9 +8,12 @@ if (OpenCV_FOUND)
     include_directories(${OpenCV_INCLUDE_DIRS})
 endif (OpenCV_FOUND)
 
-include_directories(${PROJECT_SOURCE_DIR}/DBoW2/DBoW2)
+set(DBoW2_INCLUDE_DIRS "/usr/local/include")
+set(DBoW2_LIBS "/usr/local/lib/libDBoW2.so")
+
+include_directories(${DBoW2_INCLUDE_DIRS})
 
 add_executable(bow_matching examples/bow_matching.cpp)
 target_link_libraries(bow_matching
         ${OpenCV_LIBS}
-        ${PROJECT_SOURCE_DIR}/DBoW2/lib/libDBoW2.so)
+        ${DBoW2_LIBS})

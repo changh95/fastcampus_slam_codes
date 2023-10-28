@@ -1,4 +1,4 @@
-#include "DBoW2.h"
+#include "DBoW2/DBoW2.h"
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/features2d.hpp>
