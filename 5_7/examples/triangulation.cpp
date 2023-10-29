@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
 
         // Show matches
         cv::imshow("BF Matches", img_bf);
-        cv::waitKey(0);
+        cv::waitKey(30);
 
         // Convert keypoints into Point2f
         std::vector<cv::Point2f> left_pts, right_pts;
@@ -124,20 +124,20 @@ int main(int argc, char **argv) {
         cv::Mat pts_4d;
         cv::triangulatePoints(P0, P1, left_pts, right_pts, pts_4d);
 
-        for (int i = 0; i < pts_4d.cols; i++) {
-            cv::Mat x = pts_4d.col(i);
-            x /= x.at<float>(3, 0);
-            std::cout << x.at<float>(0, 0) << " " << x.at<float>(1, 0) << " "
-                      << x.at<float>(2, 0) << std::endl;
-        }
-
         // 3D visualize triangulated points
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         d_cam.Activate(s_cam);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         glBegin(GL_POINTS);
-        glVertex3d(0.0, 0.0, 0.0);
+        glColor3f(1.0, 0.0, 0.0);
+        for (int i = 0; i < pts_4d.cols; i++) {
+            cv::Mat x = pts_4d.col(i);
+            x /= x.at<float>(3, 0);
+            glVertex3d( x.at<float>(0, 0),  x.at<float>(1, 0),  x.at<float>(2, 0));
+//            std::cout << x.at<float>(0, 0) << " " << x.at<float>(1, 0) << " "
+//                      << x.at<float>(2, 0) << std::endl;
+        }
         glEnd();
 
         pangolin::FinishFrame();
