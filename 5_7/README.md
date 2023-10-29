@@ -8,7 +8,7 @@
 
 # How to build & run
 
-Requirement: OpenCV4
+Requirement: OpenCV4, Pangolin, Eigen3
 
 ## Local build
 
