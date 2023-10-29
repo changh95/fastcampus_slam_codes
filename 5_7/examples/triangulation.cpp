@@ -130,6 +130,7 @@ int main(int argc, char **argv) {
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         glBegin(GL_POINTS);
+        glPointSize(3);
         glColor3f(1.0, 0.0, 0.0);
         for (int i = 0; i < pts_4d.cols; i++) {
             cv::Mat x = pts_4d.col(i);
