@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     right_image_filenames.resize(num_frames);
 
     // create pangolin window and plot the trajectory
-    pangolin::CreateWindowAndBind("Trajectory Viewer", 1024, 768);
+    pangolin::CreateWindowAndBind("Point cloud Viewer", 1024, 768);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
