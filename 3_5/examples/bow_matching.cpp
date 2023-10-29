@@ -53,6 +53,7 @@ int main() {
   feature_detector->detectAndCompute(query_img, cv::Mat(), query_kpts,
                                      query_desc);
   std::vector<cv::Mat> v_query_desc;
+  v_query_desc.resize(query_desc.rows);
   for (int i = 0; i < query_desc.rows; i++) {
     v_query_desc[i] = query_desc.row(i);
   }
