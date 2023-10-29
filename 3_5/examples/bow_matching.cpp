@@ -7,13 +7,12 @@
 #include <vector>
 
 int main() {
-  std::vector<cv::Mat> images(5);
+  std::vector<cv::Mat> images(4);
 
-  images[0] = cv::imread("data/000024.png", cv::IMREAD_GRAYSCALE);
-  images[1] = cv::imread("data/000025.png", cv::IMREAD_GRAYSCALE);
-  images[2] = cv::imread("data/001382.png", cv::IMREAD_GRAYSCALE);
-  images[3] = cv::imread("data/002105.png", cv::IMREAD_GRAYSCALE);
-  images[4] = cv::imread("data/003295.png", cv::IMREAD_GRAYSCALE);
+  images[0] = cv::imread("data/000025.png", cv::IMREAD_GRAYSCALE);
+  images[1] = cv::imread("data/001382.png", cv::IMREAD_GRAYSCALE);
+  images[2] = cv::imread("data/002105.png", cv::IMREAD_GRAYSCALE);
+  images[3] = cv::imread("data/003295.png", cv::IMREAD_GRAYSCALE);
 
   const auto feature_detector = cv::ORB::create();
   std::vector<std::vector<cv::Mat>> v_descriptors;
@@ -48,9 +47,17 @@ int main() {
   }
 
   // Query
-    DBoW2::QueryResults ret;
-  for (int i = 0; i < images.size(); i++) {
-    db.query(v_descriptors[i], ret, 5);
-    std::cout << "Searching for image " << i << ". " << ret << std::endl;
+  cv::Mat query_img = cv::imread("data/000025.png", cv::IMREAD_GRAYSCALE);
+  std::vector<cv::KeyPoint> query_kpts;
+  cv::Mat query_desc;
+  feature_detector->detectAndCompute(query_img, cv::Mat(), query_kpts,
+                                     query_desc);
+  std::vector<cv::Mat> v_query_desc;
+  for (int i = 0; i < query_desc.rows; i++) {
+    v_query_desc[i] = query_desc.row(i);
   }
+
+  DBoW2::QueryResults ret;
+  db.query(v_query_desc, ret, 4);
+  std::cout << "Searching for image " << ": " << ret << std::endl;
 }
