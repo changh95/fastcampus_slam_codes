@@ -128,9 +128,9 @@ int main(int argc, char **argv) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         d_cam.Activate(s_cam);
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glPointSize(3);
 
         glBegin(GL_POINTS);
-        glPointSize(3);
         glColor3f(1.0, 0.0, 0.0);
         for (int i = 0; i < pts_4d.cols; i++) {
             cv::Mat x = pts_4d.col(i);
