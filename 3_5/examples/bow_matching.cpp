@@ -60,5 +60,10 @@ int main() {
 
   DBoW2::QueryResults ret;
   db.query(v_query_desc, ret, 4);
-  std::cout << "Searching for image " << ": " << ret << std::endl;
+  std::cout << "Searching for image "
+            << ": " << ret << std::endl;
+
+  cv::imshow("query", query_img);
+  cv::imshow("result", images[ret[0].Id]);
+  cv::waitKey(0);
 }

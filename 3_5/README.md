@@ -28,7 +28,7 @@ Requires base build
 
 ```
 docker build . -t slam:3_5
-docker run -it  slam:3_5
+docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:3_5
 
 # Inside docker container
 cd fastcampus_slam_codes/3_5
