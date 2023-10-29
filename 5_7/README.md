@@ -24,11 +24,11 @@ make -j
 Requires base build
 
 ```
-docker build . -t slam:5_6
-docker run -it --env DISPLAY=$DISPLAY -v ~/kitti:/data -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:5_6
+docker build . -t slam:5_7
+docker run -it --env DISPLAY=$DISPLAY -v ~/kitti:/data -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:5_7
 
 # Inside docker container
-cd fastcampus_slam_codes/5_6
+cd fastcampus_slam_codes/5_7
 ./build/kitti /data/sequences/00/image_0/ /data/sequences/00/image_1/
 ```
 
