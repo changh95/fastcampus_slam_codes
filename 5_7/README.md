@@ -16,7 +16,7 @@ Requirement: OpenCV4
 mkdir build && cd build
 cmake ..
 make -j
-./triangulation ~/kitti/sequences/00/image_0/ ~/kitti/sequences/00/image_1/
+./triangulation ~/kitti/sequences/00/image_0/ ~/kitti/sequences/00/image_1/ 1000
 ```
 
 ## Docker build
@@ -29,7 +29,7 @@ docker run -it --env DISPLAY=$DISPLAY -v ~/kitti:/data -v /tmp/.X11-unix/:/tmp/.
 
 # Inside docker container
 cd fastcampus_slam_codes/5_7
-./build/kitti /data/sequences/00/image_0/ /data/sequences/00/image_1/
+./build/kitti /data/sequences/00/image_0/ /data/sequences/00/image_1/ 1000
 ```
 
 ---
