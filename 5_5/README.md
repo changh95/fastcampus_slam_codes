@@ -9,7 +9,7 @@
 
 ---
 
-## How to build 
+## How to build
 
 Requirements: OpenCV4
 
@@ -34,5 +34,8 @@ docker run -it --env DISPLAY=$DISPLAY -v /kitti/:/data -v /tmp/.X11-unix/:/tmp/.
 ---
 
 ## Output
+
+- On line 211, if you swap the code to `int y = int(-t_f.at<double>(2)) + 500;`,
+  then you can get the correct direction for the trajectory.
 
 ![](output.gif)
