@@ -4,7 +4,7 @@ We use Sophus library to handle Lie Group and Lie Algebra.
 
 ## How to build
 
-Pre-requisite: Pangolin v0.6
+Pre-requisite: Sophus
 
 Refer to docker/Dockerfile.
 
