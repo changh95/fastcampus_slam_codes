@@ -17,9 +17,6 @@ Refer to docker/Dockerfile.
 ## How to run (Docker)
 
 ```
-# Enable docker port for visualization
-xhost +local:docker
-
 # Build and run docker image
 docker build . -t slam:2_6
 docker run -it slam:2_6
