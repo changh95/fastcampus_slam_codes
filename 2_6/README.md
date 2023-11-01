@@ -1,10 +1,6 @@
-# 3d_pose_viewer
+# Introduction to Lie Group and Lie Algebra
 
-A simple 3D coordinate viewer. Currently supports KITTI dataset pose format.
-
-## Demo
-
-![](./3d_pose_viewer.gif)
+We use Sophus library to handle Lie Group and Lie Algebra.
 
 ## How to build
 
@@ -15,7 +11,7 @@ Refer to docker/Dockerfile.
 ## How to run (Local)
 
 ```
-./build/pose_viewer ./cam0_to_world.txt
+./build/sophus
 ```
 
 ## How to run (Docker)
@@ -25,10 +21,10 @@ Refer to docker/Dockerfile.
 xhost +local:docker
 
 # Build and run docker image
-docker build . -t pose_viewer:latest
-docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro pose_viewer:latest
+docker build . -t slam:2_6
+docker run -it slam:2_6
 
 # Inside docker
-cd 3d_pose_viewer
-./build/pose_viewer ./cam0_to_world.txt
+cd fastcampus_slam_codes/2_6
+./build/sophus
 ```
