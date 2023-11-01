@@ -11,7 +11,10 @@ Refer to docker/Dockerfile.
 ## How to run (Local)
 
 ```
-./build/sophus
+mkdir build && cd build
+cmake ..
+make
+./sophus
 ```
 
 ## How to run (Docker)
