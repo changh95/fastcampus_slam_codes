@@ -26,17 +26,17 @@ RUN apt-get install build-essential -y && \
     apt-get install -y zip &&\
     apt-get clean
 
-# OpenCV
-RUN apt-get install -y ccmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
-RUN git clone https://github.com/opencv/opencv.git &&\
-    git clone https://github.com/opencv/opencv_contrib.git &&\
+RUN git clone https://github.com/fdcl-gwu/aruco-markers.git &&\
+    cd aruco-markers &&\
+    git submodule update --init &&\
+    cd libraries/opencv &&\
     mkdir build && cd build &&\
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules .. &&\
-    make -j4 &&\
-    sudo make install &&\
-    cd /
+    make -j &&\
+    make install &&\
+    cd ../../
 
-RUN https://github.com/fdcl-gwu/aruco-markers.git &&\
-    cd aruco-markers &&\
+RUN cd aruco-markers/pose_estimation &&\
     mkdir build && cd build &&\
-    cmake .. &&\ make
+    cmake .. &&\
+    make -j
