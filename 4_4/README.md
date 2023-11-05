@@ -15,7 +15,11 @@ Requirement: PCL
 mkdir build && cd build
 cmake ..
 make -j
-./visualization
+./downsampling
+./kdtree
+./passthrough
+./sor
+./plane_det
 ```
 
 ## Docker build 
@@ -23,12 +27,16 @@ make -j
 Requires base build
 
 ```
-docker build . -t slam:4_2
-docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_1
+docker build . -t slam:4_4
+docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_4
 
 # Inside docker container
-cd fastcampus_slam_codes/4_2
-./build/visualization
+cd fastcampus_slam_codes/4_4
+./downsampling
+./kdtree
+./passthrough
+./sor
+./plane_det
 ```
 
 ---
