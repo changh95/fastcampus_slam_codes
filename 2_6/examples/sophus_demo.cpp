@@ -32,11 +32,11 @@ int main()
     std::cout << "log_rand_T: " << log_rand_T.transpose() << std::endl;
 
 
-    // SO(3) Pertubation
+    // SO(3) Perturbation
     Eigen::Vector3d small_rot = Eigen::Vector3d(0.0001, 0.0, 0.0);
     std::cout << "small_rot :" << small_rot.transpose() << std::endl;
 
-    // Convert small rotation into SO(#) via exponential map
+    // Convert small rotation into SO(3) via exponential map
     Sophus::SO3d small_R = Sophus::SO3d::exp(small_rot);
     std::cout << "small_R:\n" << small_R.matrix() << std::endl;
 
