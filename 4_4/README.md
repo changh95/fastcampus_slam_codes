@@ -1,7 +1,7 @@
 # Basic point cloud processing
 
 - Load a lidar point cloud datum from KITTI dataset
-- Use PCL functions to perform 1. 
+- Use PCL functions to perform 1. Point cloud downsampling, 2. KD-tree search, 3. Passthrough filter, 4. Statistical outlier removal, 5. Plane detection
 
 ---
 
