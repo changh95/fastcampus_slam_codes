@@ -78,6 +78,9 @@ int main() {
   viewer1.addPointCloud<pcl::PointXYZRGB>(inliers_colored, "inliers");
   viewer1.addPointCloud<pcl::PointXYZRGB>(outliers_colored, "outliers");
 
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "inliers");
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "outliers");
+
   while (!viewer1.wasStopped()) {
     viewer1.spinOnce();
   }

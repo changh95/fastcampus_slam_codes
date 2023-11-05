@@ -85,16 +85,18 @@ int main(int argc, char **argv) {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr output_colored(
       new pcl::PointCloud<pcl::PointXYZRGB>);
 
-  colorize(*cloud, *cloud_colored, {0, 255, 0});
+  colorize(*cloud, *cloud_colored, {255, 0, 0});
   colorize(*output, *output_colored, {0, 255, 0});
 
-  pcl::visualization::PCLVisualizer viewer1("Original point cloud");
-  pcl::visualization::PCLVisualizer viewer2("Passthrough point cloud");
+  pcl::visualization::PCLVisualizer viewer1("Passthrough point cloud");
   viewer1.addPointCloud<pcl::PointXYZRGB>(cloud_colored, "cloud");
-  viewer2.addPointCloud<pcl::PointXYZRGB>(output_colored, "cloud");
+  viewer1.addPointCloud<pcl::PointXYZRGB>(output_colored, "cloud_filtered");
 
-  while (!viewer1.wasStopped() || !viewer2.wasStopped()) {
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "cloud");
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "cloud_filtered");
+
+  while (!viewer1.wasStopped()) {
     viewer1.spinOnce();
-    viewer2.spinOnce();
+    viewer1.spinOnce();
   }
 }
