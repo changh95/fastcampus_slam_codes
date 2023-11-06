@@ -51,5 +51,9 @@ int main (int argc, char* argv[])
   pcl::visualization::PCLVisualizer viewer1("Simple Cloud Viewer");
   viewer1.addPointCloud<pcl::PointXYZRGB>(cloud_c, "cloud");
               
+  while (!viewer1.wasStopped()) {
+    viewer1.spinOnce();
+  }
+              
   return 0;
 }
