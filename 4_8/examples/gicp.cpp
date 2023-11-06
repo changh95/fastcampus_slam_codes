@@ -78,6 +78,8 @@ int main(int argc, char **argv) {
   pcl::visualization::PCLVisualizer viewer1("Simple Cloud Viewer");
   viewer1.addPointCloud<pcl::PointXYZRGB>(tgt_colored, "tgt_viz");
   viewer1.addPointCloud<pcl::PointXYZRGB>(align_colored, "align_viz");
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "tgt_viz");
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "align_viz");
 
   pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
   icp.setMaxCorrespondenceDistance(1.0);

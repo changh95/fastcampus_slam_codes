@@ -84,6 +84,8 @@ int main(int argc, char **argv) {
   pcl::visualization::PCLVisualizer viewer1("Simple Cloud Viewer");
   viewer1.addPointCloud<pcl::PointXYZRGB>(cloud_colored, "cloud");
   viewer1.addPointCloud<pcl::PointXYZRGB>(align_colored, "align");
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "cloud");
+  viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "align");
 
   for (int i = 0; i < 4000; ++i) {
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(
