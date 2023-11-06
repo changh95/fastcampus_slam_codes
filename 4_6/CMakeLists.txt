@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project("Introduction to point cloud processing" LANGUAGES CXX)
+project("Iterative Closest Point (ICP)" LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(PCL REQUIRED)
