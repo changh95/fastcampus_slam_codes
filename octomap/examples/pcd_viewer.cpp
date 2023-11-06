@@ -32,9 +32,9 @@ int main (int argc, char* argv[])
     std::cerr << "./pcd_viewer [path_to_pcd_file]" << std::endl;
     return -1;
   }
-  
+
   const std::string filename = argv[1];
-  
+
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 
   if (pcl::io::loadPCDFile<pcl::PointXYZ> (filename, *cloud) == -1)
@@ -43,17 +43,16 @@ int main (int argc, char* argv[])
     std::cerr << error_message << std::endl;
     return -1;
   }
-  
+
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_c(new pcl::PointCloud<pcl::PointXYZRGB>);
   colorize(*cloud, *cloud_c, {255, 0, 0});
-  
-  
+
   pcl::visualization::PCLVisualizer viewer1("Simple Cloud Viewer");
   viewer1.addPointCloud<pcl::PointXYZRGB>(cloud_c, "cloud");
-              
+
   while (!viewer1.wasStopped()) {
-    viewer1.spinOnce();
+    viewer1.spin();
   }
-              
+
   return 0;
 }
