@@ -29,7 +29,7 @@ int main (int argc, char* argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "./pcd_viewer [path_to_pcd_file] << std::endl";
+    std::cerr << "./pcd_viewer [path_to_pcd_file]" << std::endl;
     return -1;
   }
   
