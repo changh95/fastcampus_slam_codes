@@ -2,7 +2,7 @@
 
 - uses Python codes (Mostly because VPR codes are supported in python natively)
 - Switchable descriptors (HDC-DELF, AlexNet-conv, NetVLAD, PatchNetVLAD, CosPlace, EigenPlaces)
-- Swithable day/night datasets (GardensPoint, StLucia, SFU)
+- Switchable day/night datasets (GardensPoint, StLucia, SFU)
 
 ---
 
