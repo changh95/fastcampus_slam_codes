@@ -70,9 +70,9 @@ int main(int argc, char **argv) {
   pcl::transformPointCloud(*src, *tgt, tf);
 
   pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
-  icp.setMaxCorrespondenceDistance(1.0);
-  icp.setTransformationEpsilon(0.001);
-  icp.setMaximumIterations(1000);
+  icp.setMaxCorrespondenceDistance(2.5);
+  icp.setTransformationEpsilon(0.000001);
+  icp.setMaximumIterations(1000000);
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr align(new pcl::PointCloud<pcl::PointXYZ>);
 
