@@ -54,6 +54,9 @@ Green: Transformed point cloud (Not really visible, as the points lie behind the
 
 ![ndt](./ndt.gif)
 
+## TEASER++
+
+![teaser_plus_plus](./teaser_plus_plus.png)
 ---
 
 # Fast-GICP

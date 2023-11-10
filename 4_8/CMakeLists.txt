@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project("Iterative Closest Point (ICP)" LANGUAGES CXX)
+project("Iterative Closest Point (ICP)")
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(PCL REQUIRED)
@@ -17,10 +17,10 @@ link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
 add_executable(gicp examples/gicp.cpp)
-target_link_libraries(gicp ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
+target_link_libraries(gicp ${PCL_LIBRARIES})
 
 add_executable(ndt examples/ndt.cpp)
-target_link_libraries(ndt ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
+target_link_libraries(ndt ${PCL_LIBRARIES})
 
-add_executable(teaser_cpp_ply example/teaser_cpp_ply.cc)
-target_link_libraries(teaser_cpp_ply Eigen3::Eigen teaserpp::teaser_registration teaserpp::teaser_io OpenMP::OpenMP_CXX)
+add_executable(teaser_plus_plus examples/teaser_plus_plus.cpp)
+target_link_libraries(teaser_plus_plus Eigen3::Eigen teaserpp::teaser_registration teaserpp::teaser_io OpenMP::OpenMP_CXX ${PCL_LIBRARIES})
