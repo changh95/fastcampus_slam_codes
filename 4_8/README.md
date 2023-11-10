@@ -53,3 +53,60 @@ Green: Transformed point cloud (Not really visible, as the points lie behind the
 ## NDT
 
 ![ndt](./ndt.gif)
+
+---
+
+# Fast-GICP
+
+> Original repo: https://github.com/SMRT-AIST/fast_gicp
+
+## How to build
+
+```
+docker build . -f Dockerfile_fast_gicp -t slam:fast_gicp
+```
+
+## How to run
+
+```
+xhost +local:docker
+docker run -it --env DISPLAY=$DISPLAY -v /kitti:/data -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:fast_gicp
+
+# Inside docker container
+cd fast_gicp/build
+./gicp_kitti /data/sequences/00/velodyne
+```
+
+## Output
+
+![](./fast_gicp.gif)
+
+---
+
+# CUDA accelerated FAST-GICP
+
+## How to build
+
+```
+docker build . -f Dockerfile_fast_gicp_cuda -t slam:fast_gicp_cuda
+```
+
+## How to run
+
+```
+xhost +local:docker
+docker run -it --env DISPLAY=$DISPLAY --privileged --runtime nvidia --gpus all -v /kitti:/data -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:fast_gicp_cuda
+
+# Inside docker container
+cd fast_gicp/
+vim src/kitti.cpp (And edit code line 86-91 to select your algorihtm)
+cd build
+make -j
+./gicp_kitti /data/sequences/00/velodyne
+```
+
+## Output
+
+![](./ndt_cuda.gif)
+
+---
