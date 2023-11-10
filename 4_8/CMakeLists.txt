@@ -8,6 +8,10 @@ if (PCL_FOUND)
     include_directories(${PCL_INCLUDE_DIRS})
 endif (PCL_FOUND)
 
+find_package(Eigen3 REQUIRED)
+find_package(teaserpp REQUIRED)
+find_package(OpenMP)
+
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -18,5 +22,5 @@ target_link_libraries(gicp ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIB
 add_executable(ndt examples/ndt.cpp)
 target_link_libraries(ndt ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
 
-add_executable(iicp examples/iicp.cpp)
-target_link_libraries(iicp ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
+add_executable(teaser_cpp_ply example/teaser_cpp_ply.cc)
+target_link_libraries(teaser_cpp_ply Eigen3::Eigen teaserpp::teaser_registration teaserpp::teaser_io OpenMP::OpenMP_CXX)
