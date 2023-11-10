@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 
   pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ> ndt;
   ndt.setMaxCorrespondenceDistance(5.0);
-  ndt.setTransformationEpsilon(0.0001);
+  ndt.setTransformationEpsilon(1E-9);
   ndt.setMaximumIterations(1000);
 
   for (int i = 0; i < 4000; ++i) {
