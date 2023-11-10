@@ -119,7 +119,7 @@ int main(int argc, const char **argv) {
   {
     auto estimate = icp_point2point(reference, current);
     std::cout << "ground truth: " << std::endl << tf << std::endl;
-    std::cout << "estiamte: " << std::endl << estimate.matrix() << std::endl;
+    std::cout << "estimate: " << std::endl << estimate.matrix() << std::endl;
   }
   return 0;
 }

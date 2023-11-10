@@ -1,15 +1,15 @@
-# Generalized ICP (G-ICP), Normal Distributions Transform (NDT), and Incremental ICP (IICP)
+# Generalized ICP (G-ICP), Normal Distributions Transform (NDT), and TEASER++
 
 - Load Velodyne lidar points from KITTI dataset.
 - Perform G-ICP on the LiDAR points.
 - Perform NDT on the LiDAR points.
-- Perform IICP on the LiDAR points.
+- Perform [TEASER++](https://github.com/MIT-SPARK/TEASER-plusplus) on the LiDAR points.
 
 ---
 
 # How to build & run
 
-Requirement: PCL
+Requirement: PCL, TEASER++
 
 ## Local build
 
@@ -19,7 +19,7 @@ cmake ..
 make -j
 ./gicp /data/kitti/sequences/00/velodyne
 ./ndt /data/kitti/sequences/00/velodyne
-./iicp /data/kitti/sequences/00/velodyne
+./teaser_plus_plus
 ```
 
 ## Docker build 
@@ -34,7 +34,7 @@ docker run -it --env DISPLAY=$DISPLAY -v /kitti:/data/ -v /tmp/.X11-unix/:/tmp/.
 cd fastcampus_slam_codes/4_8
 ./gicp /data/sequences/00/velodyne
 ./ndt /data/sequences/00/velodyne
-./iicp /data/sequences/00/velodyne
+./teaser_plus_plus
 ```
 
 ---

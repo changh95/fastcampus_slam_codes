@@ -72,11 +72,11 @@ int main(int argc, char **argv) {
   xfilter.filter(*outskirt);
 
   pcl::PassThrough<pcl::PointXYZ> yfilter;
-  xfilter.setInputCloud(center);
-  xfilter.setFilterFieldName("y");
-  xfilter.setFilterLimits(-car_size, car_size);
-  xfilter.setNegative(true);
-  xfilter.filter(*output);
+  yfilter.setInputCloud(center);
+  yfilter.setFilterFieldName("y");
+  yfilter.setFilterLimits(-car_size, car_size);
+  yfilter.setNegative(true);
+  yfilter.filter(*output);
 
   *output += *outskirt;
 

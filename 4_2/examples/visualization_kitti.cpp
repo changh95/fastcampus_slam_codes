@@ -53,34 +53,35 @@ void colorize(const pcl::PointCloud<pcl::PointXYZ> &pc,
 }
 
 int main(int argc, char **argv) {
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <path_to_bin_file>" << std::endl;
+    return -1;
+  }
+
+  std::string path_to_bin_file = argv[1];
+
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-  pcl::PointCloud<pcl::PointXYZ>::Ptr shifted_cloud(
-      new pcl::PointCloud<pcl::PointXYZ>);
-  *cloud = *load_bin("./000000.bin");
-
-  Eigen::Matrix4f tf;
-  // clang-format off
-  tf << 1.0, 0.0, 0.0, 5.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0;
-  // clang-format on
-  pcl::transformPointCloud(*cloud, *shifted_cloud, tf);
-
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_colored(
       new pcl::PointCloud<pcl::PointXYZRGB>);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr shifted_cloud_colored(
-      new pcl::PointCloud<pcl::PointXYZRGB>);
 
-  // Point cloud XYZ에 RGB 칼라 추가하기
-  colorize(*cloud, *cloud_colored, {255, 0, 0});
-  colorize(*shifted_cloud, *shifted_cloud_colored, {0, 255, 0});
+  char filename[256];
 
   pcl::visualization::PCLVisualizer viewer1("Simple Cloud Viewer");
-  viewer1.addPointCloud<pcl::PointXYZRGB>(cloud_colored, "src_red");
-  viewer1.addPointCloud<pcl::PointXYZRGB>(shifted_cloud_colored, "tgt_green");
+  viewer1.addPointCloud<pcl::PointXYZRGB>(cloud_colored, "kitti cloud");
 
-  while (!viewer1.wasStopped()) {
+  for (int i = 0; i < 4000; ++i) {
+    if (viewer1.wasStopped())
+    {
+      break;
+    }
+
+    sprintf(filename, "%s/%06d.bin", path_to_bin_file.c_str(), i);
+    *cloud = *load_bin(filename);
+
+    colorize(*cloud, *cloud_colored, {0, 255, 0});
+
+    viewer1.updatePointCloud(cloud_colored, "kitti cloud");
+
     viewer1.spinOnce();
   }
 

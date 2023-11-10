@@ -14,3 +14,6 @@ add_definitions(${PCL_DEFINITIONS})
 
 add_executable(visualization examples/visualization.cpp)
 target_link_libraries(visualization ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
+
+add_executable(visualization_kitti examples/visualization_kitti.cpp)
+target_link_libraries(visualization_kitti ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})

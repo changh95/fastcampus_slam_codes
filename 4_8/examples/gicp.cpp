@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 
   pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
   icp.setMaxCorrespondenceDistance(1.0);
-  icp.setTransformationEpsilon(0.001);
+  icp.setTransformationEpsilon(1E-9);
   icp.setMaximumIterations(1000);
 
   for (int i = 0; i < 4000; ++i) {
