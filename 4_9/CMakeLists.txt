@@ -20,6 +20,3 @@ target_link_libraries(octree ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_L
 
 add_executable(octomap_kitti examples/octomap_kitti.cpp)
 target_link_libraries(octomap_kitti ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES} ${OCTOMAP_LIBRARIES})
-
-add_executable(pcd_viewer examples/pcd_viewer.cpp)
-target_link_libraries(pcd_viewer ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES} )

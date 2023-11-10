@@ -27,7 +27,7 @@ Requires base build
 
 ```
 docker build . -t slam:4_9
-docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_6
+docker run -it --env DISPLAY=$DISPLAY -v `pwd`:/fastcampus_slam_codes/4_9 -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_9
 
 # Inside docker container
 cd fastcampus_slam_codes/4_9
@@ -38,8 +38,6 @@ cd fastcampus_slam_codes/4_9
 ---
 
 # Output
-
-![](output.png)
 
 ## Octree
 
@@ -61,6 +59,10 @@ docker run -it --env DISPLAY=$DISPLAY -v /kitti:/data -v /tmp/.X11-unix/:/tmp/.X
 
 # Inside container
 cd Bonxai/
+
+# Visualization
+pip3 install open3d numpy
+python3 pcd_viewer.py bonxai_result.pcd
 ```
 
 ## Output

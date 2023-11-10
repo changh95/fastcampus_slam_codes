@@ -12,7 +12,9 @@ RUN cd / && \
     mkdir build && cd build &&\
     cmake .. && make -j4 && make install
 
-RUN cd fastcampus_slam_codes/4_9 &&\
+WORKDIR /
+RUN cd fastcampus_slam_codes && git pull &&\
+    cd 4_9 &&\
     mkdir build && cd build && \
     cmake -GNinja ../ && \
     ninja
