@@ -16,4 +16,14 @@ docker run -it --privileged --net=host --ipc=host \
     -e "XAUTHORITY=$XAUTH" \
     -v ~/kitti:/data \
     slam:orbslam3
+
+# Inside docker
+cd ORB_SLAM3-1.0-release/Examples/Monocular
+./mono_kitti ../../Vocabulary/ORBvoc.txt ./KITTI00-02.yaml /data/sequences/00
+
 ```
+
+
+## Demo
+
+![](./output.gif)

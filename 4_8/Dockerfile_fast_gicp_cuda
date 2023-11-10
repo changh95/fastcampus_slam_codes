@@ -1,0 +1,26 @@
+FROM nvidia/cuda:12.2.2-devel-ubuntu20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    && apt-get install --no-install-recommends -y wget nano cmake build-essential git vim \
+    ca-certificates libeigen3-dev libboost-all-dev libflann-dev libvtk7-dev libomp-dev libgtest-dev libpcl-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /root
+RUN git clone https://github.com/PointCloudLibrary/pcl
+
+WORKDIR /root/
+RUN git clone https://github.com/SMRT-AIST/fast_gicp.git
+WORKDIR /root/fast_gicp
+RUN git submodule init && git submodule update
+
+RUN rm -rf /root/fast_gicp/build
+WORKDIR /root/fast_gicp/build
+RUN cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_VGICP_CUDA=ON -DBUILD_PYTHON_BINDINGS=ON -DBUILD_apps=ON -DBUILD_test=ON
+RUN make -j$(nproc)
+
+WORKDIR /root
+
+CMD ["bash"]

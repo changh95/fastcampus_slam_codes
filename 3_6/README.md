@@ -2,18 +2,18 @@
 
 - uses Python codes (Mostly because VPR codes are supported in python natively)
 - Switchable descriptors (HDC-DELF, AlexNet-conv, NetVLAD, PatchNetVLAD, CosPlace, EigenPlaces)
-- Swithable day/night datasets (GardensPoint, StLucia, SFU)
+- Switchable day/night datasets (GardensPoint, StLucia, SFU)
 
 ---
 
 # How to build & run
 
-## Docker build
+# Docker build
 
 ```
-xhost +local:docker
+xhost +local:dockeUN apt-get install -y libboost-all-dev libssl-dev
 docker build . -t slam:vpr
-docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:vpr
+docker run -it --env DISPLAY=$DISPLAY --privileged --runtime nvidia --gpus all -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:vpr
 
 # Inside docker container
 cd VPR_Tutorial
