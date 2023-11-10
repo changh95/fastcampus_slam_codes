@@ -1,11 +1,15 @@
 //
-// Original Tutorial Author: https://scm_mos.gitlab.io/algorithm/icp/
+// Original Tutorial Author: shapelim@kaist.ac.kr (임형태)
 
 #include <pcl/PCLPointCloud2.h>
-#include <pcl/common/transforms.h>
 #include <pcl/conversions.h>
+#include <pcl/octree/octree_search.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/cloud_viewer.h>
+
+#include <octomap/octomap.h>
+
+using namespace std;
 
 pcl::PointCloud<pcl::PointXYZ>::ConstPtr load_bin(const std::string &filename) {
   std::ifstream file(filename, std::ios::binary);
@@ -51,75 +55,110 @@ void colorize(const pcl::PointCloud<pcl::PointXYZ> &pc,
   }
 }
 
-Eigen::Isometry3d icp_point2point(
-    std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d>>
-        &reference,
-    std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d>>
-        &current) {
-  Eigen::Isometry3d transform = Eigen::Isometry3d::Identity();
-  if (reference.size() != current.size()) {
-    return transform;
-  }
-  int N = reference.size();
-  Eigen::Map<Eigen::Matrix3Xd> ps(&reference[0].x(), 3,
-                                  N); // maps vector<Vector3d>
-  Eigen::Map<Eigen::Matrix3Xd> qs(&current[0].x(), 3,
-                                  N); // to Matrix3Nf columnwise
-  Eigen::Vector3d p_dash = ps.rowwise().mean();
-  Eigen::Vector3d q_dash = qs.rowwise().mean();
-  Eigen::Matrix3Xd ps_centered = ps.colwise() - p_dash;
-  Eigen::Matrix3Xd qs_centered = qs.colwise() - q_dash;
-  Eigen::Matrix3d K = qs_centered * ps_centered.transpose();
-  Eigen::JacobiSVD<Eigen::Matrix3d> svd(K, Eigen::ComputeFullU |
-                                               Eigen::ComputeFullV);
-  Eigen::Matrix3d R = svd.matrixU() * svd.matrixV().transpose();
-  if (R.determinant() < 0) {
-    R.col(2) *= -1;
-  }
-  transform.linear() = R;
-  transform.translation() = q_dash - R * p_dash;
-  return transform;
-}
+int main(int argc, char **argv) {
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  *cloud = *load_bin("000000.bin");
 
-int main(int argc, const char **argv) {
-  pcl::PointCloud<pcl::PointXYZ>::Ptr src(new pcl::PointCloud<pcl::PointXYZ>);
-  pcl::PointCloud<pcl::PointXYZ>::Ptr tgt(new pcl::PointCloud<pcl::PointXYZ>);
-  pcl::PointCloud<pcl::PointXYZ>::Ptr align(new pcl::PointCloud<pcl::PointXYZ>);
-  *src = *load_bin("000000.bin");
+  pcl::octree::OctreePointCloudSearch<pcl::PointXYZ> octree(1.0);
+  octree.setInputCloud(cloud);
+  octree.addPointsFromInputCloud();
 
-  /** Test를 위해 z축으로 10도 회전 및 앞으로 2m 전진시킨 target을 만듦 */
-  Eigen::Matrix4f tf;
-  // clang-format off
-  tf << 0.9848077, -0.1736482, 0.0, 2.0,
-      0.1736482, 0.9848077, 0.0, 0.0,
-      0.0, 0.0, 1.0, 0.0,
-      0.0, 0.0, 0.0, 1.0;
-  // clang-format on
-  pcl::transformPointCloud(*src, *tgt, tf);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_search(
+      new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr radius_search(
+      new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr knn_search(
+      new pcl::PointCloud<pcl::PointXYZ>);
 
-  std::vector<Eigen::Vector3d, Eigen::aligned_allocator<Eigen::Vector3d>>
-      reference, current;
+  pcl::PointXYZ searchPoint;
+  searchPoint.x = 0.0;
+  searchPoint.y = 10.0;
+  searchPoint.z = -2.0;
 
-  /** reference와 current에 각각 pointcloud의 point를 저장 */
-  for (int pos = 0; pos < src->size(); pos++) {
-    Eigen::Vector3d point;
-    point.x() = src->at(pos).x;
-    point.y() = src->at(pos).y;
-    point.z() = src->at(pos).z;
-    reference.push_back(point);
-  }
-  for (int pos = 0; pos < tgt->size(); pos++) {
-    Eigen::Vector3d point;
-    point.x() = tgt->at(pos).x;
-    point.y() = tgt->at(pos).y;
-    point.z() = tgt->at(pos).z;
-    current.push_back(point);
+  std::vector<int> pointIdxVec;
+
+  if (octree.voxelSearch(searchPoint, pointIdxVec)) {
+    std::cout << "Neighbors within voxel search at (" << searchPoint.x << " "
+              << searchPoint.y << " " << searchPoint.z << ")" << std::endl;
+
+    for (std::size_t i = 0; i < pointIdxVec.size(); ++i) {
+      std::cout << "    " << (*cloud)[pointIdxVec[i]].x << " "
+                << (*cloud)[pointIdxVec[i]].y << " "
+                << (*cloud)[pointIdxVec[i]].z << std::endl;
+
+      voxel_search->push_back((*cloud)[pointIdxVec[i]]);
+    }
   }
 
-  {
-    auto estimate = icp_point2point(reference, current);
-    std::cout << "ground truth: " << std::endl << tf << std::endl;
-    std::cout << "estimate: " << std::endl << estimate.matrix() << std::endl;
+  int K = 100;
+
+  std::vector<int> pointIdxNKNSearch;
+  std::vector<float> pointNKNSquaredDistance;
+
+  std::cout << "K nearest neighbor search at (" << searchPoint.x << " "
+            << searchPoint.y << " " << searchPoint.z << ") with K=" << K
+            << std::endl;
+
+  if (octree.nearestKSearch(searchPoint, K, pointIdxNKNSearch,
+                            pointNKNSquaredDistance) > 0) {
+    for (std::size_t i = 0; i < pointIdxNKNSearch.size(); ++i) {
+      std::cout << "    " << (*cloud)[pointIdxNKNSearch[i]].x << " "
+                << (*cloud)[pointIdxNKNSearch[i]].y << " "
+                << (*cloud)[pointIdxNKNSearch[i]].z
+                << " (squared distance: " << pointNKNSquaredDistance[i] << ")"
+                << std::endl;
+
+      knn_search->push_back((*cloud)[pointIdxNKNSearch[i]]);
+    }
   }
-  return 0;
+
+  // Neighbors within radius search
+
+  std::vector<int> pointIdxRadiusSearch;
+  std::vector<float> pointRadiusSquaredDistance;
+  float radius = 1.0;
+
+  std::cout << "Neighbors within radius search at (" << searchPoint.x << " "
+            << searchPoint.y << " " << searchPoint.z
+            << ") with radius=" << radius << std::endl;
+  if (octree.radiusSearch(searchPoint, radius, pointIdxRadiusSearch,
+                          pointRadiusSquaredDistance) > 0) {
+    for (std::size_t i = 0; i < pointIdxRadiusSearch.size(); ++i) {
+      std::cout << "    " << (*cloud)[pointIdxRadiusSearch[i]].x << " "
+                << (*cloud)[pointIdxRadiusSearch[i]].y << " "
+                << (*cloud)[pointIdxRadiusSearch[i]].z
+                << " (squared distance: " << pointRadiusSquaredDistance[i]
+                << ")" << std::endl;
+
+      radius_search->push_back((*cloud)[pointIdxRadiusSearch[i]]);
+    }
+  }
+
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr voxel_search_c(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr radius_search_c(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr knn_search_c(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+
+  colorize(*voxel_search, *voxel_search_c, {255, 0, 0});
+  colorize(*radius_search, *radius_search_c, {0, 255, 0});
+  colorize(*knn_search, *knn_search_c, {0, 0, 255});
+
+  pcl::visualization::PCLVisualizer viewer1("Input point cloud");
+  viewer1.addPointCloud<pcl::PointXYZ>(cloud, "cloud");
+  viewer1.addPointCloud<pcl::PointXYZRGB>(radius_search_c, "radius_search");
+  viewer1.addPointCloud<pcl::PointXYZRGB>(knn_search_c, "knn_search");
+  viewer1.addPointCloud<pcl::PointXYZRGB>(voxel_search_c, "voxel_search");
+
+  viewer1.setPointCloudRenderingProperties(
+      pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "cloud");
+  viewer1.setPointCloudRenderingProperties(
+      pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "radius_search");
+  viewer1.setPointCloudRenderingProperties(
+      pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "knn_search");
+  viewer1.setPointCloudRenderingProperties(
+      pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "voxel_search");
+
+  viewer1.spin();
 }

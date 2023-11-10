@@ -1,14 +1,15 @@
-# Octree & Octomap
+# Octree & Octomap & Bonxai
 
 - Load a lidar point cloud datum from KITTI dataset
 1. Perform octree-based nearest neighbor search
-2. Make voxel map based on octomap library
+2. Make voxel map based on [Octomap](https://octomap.github.io) library
+3. Fast voxel mapping using [Bonxai](https://github.com/facontidavide/Bonxai/tree/main) library, and visualize the map
 
 ---
 
 # How to build & run
 
-Requirement: PCL, octomap
+Requirement: PCL, Octomap
 
 ## Local build
 
@@ -38,6 +39,8 @@ cd fastcampus_slam_codes/4_9
 
 # Output
 
+![](output.png)
+
 ## Octree
 
 ![](octree.png)
@@ -45,3 +48,21 @@ cd fastcampus_slam_codes/4_9
 ## Octomap
 
 ![](octomap.png)
+
+---
+
+# Fast voxel mapping using [Bonxai](https://github.com/facontidavide/Bonxai/tree/main) library
+
+## How to build & run
+
+```
+docker build . -f Dockerfile_bonxai -t slam:4_9_bonxai
+docker run -it --env DISPLAY=$DISPLAY -v /kitti:/data -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_9_bonxai
+
+# Inside container
+cd Bonxai/
+```
+
+## Output
+
+![](bonxai.png)

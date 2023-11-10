@@ -12,8 +12,14 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-add_executable(octree examples/octree.cpp)
-target_link_libraries(octree ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
+find_package(octomap REQUIRED)
+include_directories(${OCTOMAP_INCLUDE_DIRS})
 
-add_executable(octomap examples/octomap.cpp)
-target_link_libraries(octomap ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES})
+add_executable(octree examples/octree.cpp)
+target_link_libraries(octree ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES} ${OCTOMAP_LIBRARIES})
+
+add_executable(octomap_kitti examples/octomap_kitti.cpp)
+target_link_libraries(octomap_kitti ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES} ${OCTOMAP_LIBRARIES})
+
+add_executable(pcd_viewer examples/pcd_viewer.cpp)
+target_link_libraries(pcd_viewer ${PCL_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${PCL_VISUALIZATION_LIBRARIES} )
