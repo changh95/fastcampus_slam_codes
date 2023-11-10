@@ -27,12 +27,12 @@ Requires base build
 
 ```
 docker build . -t slam:4_9
-docker run -it --env DISPLAY=$DISPLAY -v `pwd`:/fastcampus_slam_codes/4_9 -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_9
+docker run -it --env DISPLAY=$DISPLAY -v `pwd`/results:/fastcampus_slam_codes/4_9/results -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_9
 
 # Inside docker container
 cd fastcampus_slam_codes/4_9
-./octree
-./octomap
+./build/octree
+./build/octomap
 ```
 
 ---
@@ -58,11 +58,16 @@ docker build . -f Dockerfile_bonxai -t slam:4_9_bonxai
 docker run -it --env DISPLAY=$DISPLAY -v /kitti:/data -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:4_9_bonxai
 
 # Inside container
-cd Bonxai/
+cd Bonxai/build/bonxai_map/benchmark
+./benchmark_kitti --clouds /data/sequences/00/velodyne/ --calib /data/sequences/00/calib.txt --poses /data/poses/00.txt 
+exit
+
+# Outside container
+docker cp <container_id>:/Bonxai/build/bonxai_map/benchmark/bonxai_result.pcd ./results/bonxai_result.pcd
 
 # Visualization
 pip3 install open3d numpy
-python3 pcd_viewer.py bonxai_result.pcd
+python3 pcd_viewer.py ./results/ubonxai_result.pcd
 ```
 
 ## Output
