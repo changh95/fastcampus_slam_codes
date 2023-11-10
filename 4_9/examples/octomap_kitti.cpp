@@ -68,5 +68,5 @@ int main(int argc, char **argv) {
   tree.insertPointCloud(octo_cloud, octomap::point3d(0, 0, 0));
 
   tree.updateInnerOccupancy();
-  tree.writeBinary("000000.bt");
+  tree.writeBinary("./results/000000.bt");
 }
