@@ -1,10 +1,17 @@
 FROM ros:melodic
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  && apt-get install -y --no-install-recommends \
-  wget nano build-essential ros-melodic-cv-bridge ros-melodic-pcl-ros libomp-dev libceres-dev clang lld\
-  ros-melodic-geodesy ros-melodic-nmea-msgs \
-  ros-melodic-rviz ros-melodic-tf-conversions
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+RUN apt-get update -y
+
+RUN apt-get install -y --no-install-recommends &&\
+    apt-get install -y --no-install-recommends \
+    wget nano build-essential ros-melodic-cv-bridge ros-melodic-pcl-ros libomp-dev libceres-dev clang lld\
+    ros-melodic-geodesy ros-melodic-nmea-msgs \
+    ros-melodic-rviz ros-melodic-tf-conversions
 
 # OpenCV 
 RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
@@ -43,8 +50,8 @@ WORKDIR /root/catkin_ws
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
 RUN sed -i "6i source \"/root/catkin_ws/devel/setup.bash\"" /ros_entrypoint.sh
 
-WORKDIR /
-RUN wget https://urserver.kaist.ac.kr/publicdata/dynaVINS/d455_urban_robotics/e_shape.bag
+#WORKDIR /
+#RUN wget https://urserver.kaist.ac.kr/publicdata/dynaVINS/d455_urban_robotics/e_shape.bag
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
 CMD ["bash"]
