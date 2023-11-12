@@ -11,7 +11,7 @@
 # Docker build
 
 ```
-xhost +local:dockeUN apt-get install -y libboost-all-dev libssl-dev
+xhost +local:docker
 docker build . -t slam:vpr
 docker run -it --env DISPLAY=$DISPLAY --privileged --runtime nvidia --gpus all -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:vpr
 
