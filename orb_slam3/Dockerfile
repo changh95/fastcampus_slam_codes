@@ -32,7 +32,7 @@ RUN cd / &&\
     unzip opencv.zip && \
     cd opencv-4.4.0  && \
     mkdir build && cd build && \
-    cmake -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -GNinja .. && ninja -j4 && ninja install
+    cmake -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -GNinja .. && ninja && ninja install
 
 # Pangolin    
 RUN apt-get install -y libgl1-mesa-dev libwayland-dev libxkbcommon-dev wayland-protocols libegl1-mesa-dev libc++-dev libglew-dev libeigen3-dev
@@ -41,12 +41,12 @@ RUN cd / &&\
     unzip v0.6.zip &&\
     cd Pangolin-0.6 && mkdir build && cd build &&\
     cmake -GNinja .. &&\
-    ninja -j4 &&\
+    ninja &&\
     ninja install &&\
     cd ../../
     
 # ORB-SLAM3
-RUN apt-get install -y libboost-all-dev libssl-dev
+RUN apt-get clean && apt-get update -y && apt-get install -y libboost-all-dev libssl-dev
 RUN wget https://github.com/UZ-SLAMLab/ORB_SLAM3/archive/refs/tags/v1.0-release.zip &&\
     unzip v1.0-release.zip &&\
     cd ORB_SLAM3-1.0-release &&\
