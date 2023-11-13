@@ -1,21 +1,22 @@
 setting:
-  name: "ncd_incre_reg"
-  output_root: "./experiments/"
-  pc_path: "xxx/data/ncd_example/quad/pcd"
-  pose_path: "xxx/data/ncd_example/quad/poses.txt"
-  calib_path: "xxx/data/ncd_example/quad/calib.txt"
+  name: "kitti_incre_reg"
+  output_root: "/data/results"
+  pc_path: "/data/velodyne"
+  pose_path: "/data/poses.txt"
+  label_path: "/data/labels" # optional for semantic mapping
+  calib_path: "/data/calib.txt"
   load_model: False
   model_path: "" 
   first_frame_ref: False
   begin_frame: 0
-  end_frame: 1300
-  every_frame: 5 # 1 means does not skip
+  end_frame: 100
+  every_frame: 1 # 1 means does not skip
   device: "cuda"
   gpu_id: "0"
 process:
-  min_range_m: 1.5
-  pc_radius_m: 50.0  # distance filter for each frame
-  min_z_m: -10.0
+  min_range_m: 3.0
+  pc_radius_m: 25.0  # distance filter for each frame
+  min_z_m: -3.5
   rand_downsample: False # use random or voxel downsampling
   vox_down_m: 0.05
   rand_down_r: 0.2
