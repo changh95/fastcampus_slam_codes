@@ -2,6 +2,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/opencv.hpp>
 
+#include <chrono>
 #include <iostream>
 
 int main() {
@@ -44,7 +45,7 @@ int main() {
                                    // SAMPLING_NAPSAC=2,
                                    // SAMPLING_PROSAC=3
   usac_params.loMethod = cv::LocalOptimMethod::
-      LOCAL_OPTIM_GC; // LOCAL_OPTIM_NULL=0, LOCAL_OPTIM_INNER_LO=1,
+      LOCAL_OPTIM_NULL; // LOCAL_OPTIM_NULL=0, LOCAL_OPTIM_INNER_LO=1,
                       // LOCAL_OPTIM_INNER_AND_ITER_LO=2, LOCAL_OPTIM_GC=3,
                       // LOCAL_OPTIM_SIGMA=4
   usac_params.loIterations = 10;
@@ -54,11 +55,11 @@ int main() {
   usac_params.neighborsSearch = cv::NeighborSearchMethod::
       NEIGH_FLANN_KNN; // NEIGH_FLANN_KNN=0, NEIGH_GRID=1, NEIGH_FLANN_RADIUS=2
   usac_params.final_polisher =
-      cv::PolishingMethod::MAGSAC; // NONE_POLISHER=0, LSQ_POLISHER=1, MAGSAC=2,
+      cv::PolishingMethod::NONE_POLISHER; // NONE_POLISHER=0, LSQ_POLISHER=1, MAGSAC=2,
                                    // COV_POLISHER=3
-  usac_params.isParallel = true;
+  usac_params.isParallel = false;
   usac_params.confidence = 0.99;
-  usac_params.maxIterations = 100000;
+  usac_params.maxIterations = 100;
   usac_params.threshold = 3.0;
 
   // clang-format off
@@ -85,23 +86,40 @@ int main() {
 
   cv::Mat mask;
 
+  auto start = std::chrono::high_resolution_clock::now();
   cv::Mat F_1 =
       cv::findFundamentalMat(pts_left, pts_right, cv::FM_8POINT, 3, 0.99);
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed_seconds_F1 = 1000 * (end - start);
+
+  start = std::chrono::high_resolution_clock::now();
   cv::Mat F_2 =
       cv::findFundamentalMat(pts_left, pts_right, cv::USAC_FM_8PTS, 3, 0.99);
+  end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed_seconds_F2 = 1000 * (end - start);
+
+  start = std::chrono::high_resolution_clock::now();
   cv::Mat F_3 = cv::findFundamentalMat(pts_left, pts_right, mask, usac_params);
+  end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed_seconds_F3 = 1000 * (end - start);
 
   std::cout << "Ground truth fundamental matrix is " << std::endl
             << gt_fundamental_matrix << std::endl;
 
-  std::cout << "OpenCV 8-point fundamental matrix - norm is "
-            << cv::norm(gt_fundamental_matrix - F_1) << std::endl
+  std::cout << "OpenCV 8-point fundamental matrix (norm:  "
+            << cv::norm(gt_fundamental_matrix - F_1)
+            << ") (processing time: " << elapsed_seconds_F1.count() << ")"
+            << std::endl
             << F_1 << std::endl;
-  std::cout << "USAC 8-point fundamental matrix - norm is "
-            << cv::norm(gt_fundamental_matrix - F_2) << std::endl
+  std::cout << "USAC 8-point fundamental matrix (norm:  "
+            << cv::norm(gt_fundamental_matrix - F_2)
+            << ") (processing time: " << elapsed_seconds_F2.count() << ")"
+            << std::endl
             << F_2 << std::endl;
-  std::cout << "USAC fundamental matrix - norm id "
-            << cv::norm(gt_fundamental_matrix - F_3) << std::endl
+  std::cout << "USAC fundamental matrix (norm:  "
+            << cv::norm(gt_fundamental_matrix - F_3)
+            << ") (processing time: " << elapsed_seconds_F3.count() << ")"
+            << std::endl
             << F_3 << std::endl;
 
   cv::Mat img_matches;
