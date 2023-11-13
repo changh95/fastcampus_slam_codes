@@ -25,3 +25,7 @@ docker run -it --privileged --net=host --ipc=host \
 # Inside docker container
 kiss_icp_pipeline --dataloader kitti --sequence 00 --visualize /data/
 ```
+
+## Demo
+
+![](./output.gif)
