@@ -28,7 +28,6 @@ vim ./KITTI00-02.yaml (then, copy the contents of KITTI00_02_for_stereo.yaml)
 ./stereo_kitti ../../Vocabulary/ORBvoc.txt ./KITTI00-02.yaml /data/sequences/00
 ```
 
-
 ## Demo
 
 ![](./output.gif)
