@@ -5,7 +5,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && apt-get upgrade -y
 
-RUN apt-get install build-essential -y && \
+RUN apt-get update -y && apt-get install build-essential -y && \
     apt-get install cmake -y && \
     apt-get install git -y && \
     apt-get install sudo -y && \
@@ -23,9 +23,10 @@ RUN apt-get install build-essential -y && \
     apt-get install -y tar && \
     apt-get install -y x11-utils && \
     apt-get install -y x11-apps && \
-    apt-get install -y zip &&\
-    apt-get clean
+    apt-get install -y vim && \
+    apt-get install -y zip 
 
+RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
 RUN git clone https://github.com/fdcl-gwu/aruco-markers.git &&\
     cd aruco-markers &&\
     git submodule update --init &&\
@@ -35,6 +36,11 @@ RUN git clone https://github.com/fdcl-gwu/aruco-markers.git &&\
     make -j &&\
     make install &&\
     cd ../../
+
+RUN cd aruco-markers/create_markers &&\
+    mkdir build && cd build &&\
+    cmake .. && make -j &&\
+    ./generate_board -d=2 -h=10 -l=100 -m=100 -s=10 -w=20 outfile.png
 
 RUN cd aruco-markers/pose_estimation &&\
     mkdir build && cd build &&\
