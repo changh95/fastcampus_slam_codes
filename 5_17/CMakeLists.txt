@@ -3,11 +3,7 @@ project("BAL ceres")
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(Ceres REQUIRED)
-if (Ceres_FOUND)
-    message(STATUS "Found OpenCV library: " ${OpenCV_INCLUDE_DIRS})
-    include_directories(${OpenCV_INCLUDE_DIRS})
-endif (Ceres_FOUND)
 
-add_executable(bal_ceres examples/bal_ceres.cpp examples/common.cpp)
-target_include_directories(bal_ceres PUBLIC ${CERES_INCLUDE_DIRS} examples)
+add_executable(bal_ceres examples/bal_ceres.cpp src/bal_problem.cpp)
+target_include_directories(bal_ceres PUBLIC ${CERES_INCLUDE_DIRS} include)
 target_link_libraries(bal_ceres ${CERES_LIBRARIES})
