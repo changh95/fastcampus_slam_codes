@@ -13,7 +13,7 @@ Requirement: Ceres-solver
 mkdir build && cd build
 cmake ..
 make -j
-./bal_ceres
+./bal_ceres --input=../bal_data.txt
 ```
 
 ## Docker build
@@ -26,11 +26,11 @@ docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:
 
 # Inside docker container
 cd fastcampus_slam_codes/5_17
-./bal_ceres
+./build/bal_ceres --input=./bal_data.txt
 ```
 
 ---
 
-## Demo (Inlier visualization)
+## Demo
 
 ![demo](./output.png)
