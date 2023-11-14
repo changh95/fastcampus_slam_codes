@@ -1,6 +1,7 @@
 #! /bin/python3
 
 from open3d import *    
+import numpy as np
 import argparse
 
 def main(ply_path):
