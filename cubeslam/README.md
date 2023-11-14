@@ -22,4 +22,4 @@ https://drive.google.com/open?id=1FrBdmYxrrM6XeBe_vIXCuBTfZeCMgApL
 
 ## Demo
 
-![](./output.png)
+![](./output.gif)

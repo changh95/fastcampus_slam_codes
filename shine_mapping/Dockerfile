@@ -34,6 +34,17 @@ RUN git checkout v0.13.0
 RUN pip3 install -r ./tools/requirements.txt
 RUN python3 setup.py develop 
 
-WORKDIR /repository
+RUN mkdir /configs &&\
+    mkdir /data &&\
+    mkdir /data/results
 
-CMD ["bash", "-c", "cp -r /kitti/sequences/00/* /data/ && mkdir -p /data/results && cd /repository && python3 shine_batch.py ./config/kitti/docker_kitti_batch.yaml"]
+WORKDIR /repository
+RUN git clone https://github.com/PRBonn/SHINE_mapping.git . &&\
+    mkdir results
+
+# For batch map building
+CMD ["bash", "-c", "echo 'copying data...' && cp -r /kitti/sequences/00/* /data/ && cd /repository && python3 shine_batch.py /configs/docker_kitti_batch.yaml && cp -r /data/results /repository/results"]
+
+# For incremental map building
+#CMD ["bash", "-c", "echo 'copying data...' && cp -r /kitti/sequences/00/* /data/ && cd /repository && python3 shine_incre.py /configs/kitti_incre_reg.yaml && cp -r /data/results /repository/results"]
+
