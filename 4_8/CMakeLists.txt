@@ -16,8 +16,7 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-add_executable(gicp examples/gicp.cpp
-        examples/teaser_plus_plus_kitti.cpp)
+add_executable(gicp examples/gicp.cpp)
 target_link_libraries(gicp ${PCL_LIBRARIES})
 
 add_executable(ndt examples/ndt.cpp)
