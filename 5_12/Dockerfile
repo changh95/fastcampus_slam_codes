@@ -16,7 +16,7 @@ WORKDIR /
 #    ninja &&\
 #    ninja install
 
-RUN cd fastcampus_slam_codes/5_4 &&\
+RUN cd fastcampus_slam_codes/5_12 &&\
     mkdir build && cd build && \
     cmake -GNinja ../ && \
     ninja
