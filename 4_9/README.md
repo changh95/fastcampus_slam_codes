@@ -18,7 +18,7 @@ mkdir build && cd build
 cmake ..
 make -j
 ./octree
-./octomap
+./octomap_kitti
 ```
 
 ## Docker build 
@@ -32,7 +32,7 @@ docker run -it --env DISPLAY=$DISPLAY -v `pwd`/results:/fastcampus_slam_codes/4_
 # Inside docker container
 cd fastcampus_slam_codes/4_9
 ./build/octree
-./build/octomap
+./build/octomap_kitti
 ```
 
 ---
@@ -67,7 +67,7 @@ docker cp <container_id>:/Bonxai/build/bonxai_map/benchmark/bonxai_result.pcd ./
 
 # Visualization
 pip3 install open3d numpy
-python3 pcd_viewer.py ./results/ubonxai_result.pcd
+python3 pcd_viewer.py ./results/bonxai_result.pcd
 ```
 
 ## Output
