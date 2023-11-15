@@ -40,24 +40,24 @@ int main() {
 
   cv::UsacParams usac_params = cv::UsacParams();
   usac_params.sampler = cv::SamplingMethod::
-      SAMPLING_PROGRESSIVE_NAPSAC; // SAMPLING_UNIFORM=0,
+      SAMPLING_PROSAC; // SAMPLING_UNIFORM=0,
                                    // SAMPLING_PROGRESSIVE_NAPSAC=1,
                                    // SAMPLING_NAPSAC=2,
                                    // SAMPLING_PROSAC=3
   usac_params.loMethod = cv::LocalOptimMethod::
-      LOCAL_OPTIM_NULL; // LOCAL_OPTIM_NULL=0, LOCAL_OPTIM_INNER_LO=1,
+      LOCAL_OPTIM_INNER_AND_ITER_LO; // LOCAL_OPTIM_NULL=0, LOCAL_OPTIM_INNER_LO=1,
                       // LOCAL_OPTIM_INNER_AND_ITER_LO=2, LOCAL_OPTIM_GC=3,
                       // LOCAL_OPTIM_SIGMA=4
   usac_params.loIterations = 10;
   usac_params.score = cv::ScoreMethod::
-      SCORE_METHOD_MAGSAC; // SCORE_METHOD_RANSAC=0, SCORE_METHOD_MSAC=1,
+      SCORE_METHOD_RANSAC; // SCORE_METHOD_RANSAC=0, SCORE_METHOD_MSAC=1,
                            // SCORE_METHOD_MAGSAC=2, SCORE_METHOD_LMEDS=3
   usac_params.neighborsSearch = cv::NeighborSearchMethod::
       NEIGH_FLANN_KNN; // NEIGH_FLANN_KNN=0, NEIGH_GRID=1, NEIGH_FLANN_RADIUS=2
   usac_params.final_polisher =
-      cv::PolishingMethod::NONE_POLISHER; // NONE_POLISHER=0, LSQ_POLISHER=1, MAGSAC=2,
+      cv::PolishingMethod::MAGSAC; // NONE_POLISHER=0, LSQ_POLISHER=1, MAGSAC=2,
                                    // COV_POLISHER=3
-  usac_params.isParallel = false;
+  usac_params.isParallel = true;
   usac_params.confidence = 0.99;
   usac_params.maxIterations = 100;
   usac_params.threshold = 3.0;
@@ -81,7 +81,7 @@ int main() {
     9.895267e+02, 0.000000e+00, 7.020000e+02,
     0.000000e+00, 9.878386e+02, 2.455590e+02,
     0.000000e+00, 0.000000e+00, 1.000000e+00);
-  cv::Mat gt_fundamental_matrix = K_01.inv() * skew_translation * rotation * K_00.inv();
+  cv::Mat gt_fundamental_matrix = K_00.inv() * skew_translation * rotation * K_01.inv();
   // clang-format on
 
   cv::Mat mask;
