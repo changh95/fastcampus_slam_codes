@@ -59,9 +59,9 @@ docker build . --tag slam:latest --progress=plain
   - 5.4 [Bird's eye view (BEV) projection, using OpenCV library](5_4)
   - 5.5 [Simple monocular visual odometry, using OpenCV library](5_5)
   - 5.6 Triangulation
-  - 5.7 [Triangulation, using OpenCV library](5_6)
+  - 5.7 [Triangulation, using OpenCV library](5_7)
   - 5.8 Perspective-n-Points (PnP) and Direct Linear Transform (DLT)
-  - 5.9 [Fiducial marker tracking, using OpenCV library](5_8)
+  - 5.9 [Fiducial marker tracking, using OpenCV library](5_9)
   - 5.10 RANSAC
   - 5.11 Advanced RANSAC methods (USAC)
   - 5.12 [RANSAC and USAC, using OpenCV and RansacLib libraries](5_12)
