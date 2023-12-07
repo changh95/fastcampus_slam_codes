@@ -50,7 +50,7 @@ docker build . --tag slam:latest --progress=plain
   - 4.5 Iterative closest point
   - 4.6 [Iterative closest point, using PCL library](4_6)
   - 4.7 Advanced ICP methods
-  - 4.8 [Advanced ICP methods, using PCL library](4_8)
+  - 4.8 [Advanced ICP methods (G-ICP, NDT, TEASER++, KISS-ICP), using PCL library](4_8)
   - 4.9 [Octree, Octomap, Bonxai, using PCL/Octomap/Bonxai libraries](4_9)
 - Chapter 5: Multiple view geometry
   - 5.1 Epipolar geometry
