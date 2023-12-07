@@ -91,8 +91,8 @@ docker build . --tag slam:latest --progress=plain
   - 8.4 CI/CD for Python SLAM projects
   - 8.5 CI/CD for C++ SLAM projects
 - Final projects:
-  - DSP-SLAM
-  - Suma++
+  - [DSP-SLAM[()
+  - [Suma++]()
 
 ## Acknowledgements
 
