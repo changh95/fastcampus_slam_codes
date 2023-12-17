@@ -11,5 +11,5 @@ endif (OpenCV_FOUND)
 add_executable(ransac_opencv examples/ransac_opencv.cpp)
 target_link_libraries(ransac_opencv ${OpenCV_LIBS})
 
-add_executable(ransac_ransaclib examples/ransac_ransaclib.cpp)
-target_link_libraries(ransac_ransaclib ${OpenCV_LIBS})
+#add_executable(ransac_ransaclib examples/ransac_ransaclib.cpp)
+#`target_link_libraries(ransac_ransaclib ${OpenCV_LIBS})
