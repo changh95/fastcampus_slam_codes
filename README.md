@@ -50,7 +50,7 @@ docker build . --tag slam:latest --progress=plain
   - 4.5 Iterative closest point
   - 4.6 [Iterative closest point, using PCL library](4_6)
   - 4.7 Advanced ICP methods
-  - 4.8 [Advanced ICP methods, using PCL library](4_8)
+  - 4.8 [Advanced ICP methods (G-ICP, NDT, TEASER++, KISS-ICP), using PCL library](4_8)
   - 4.9 [Octree, Octomap, Bonxai, using PCL/Octomap/Bonxai libraries](4_9)
 - Chapter 5: Multiple view geometry
   - 5.1 Epipolar geometry
@@ -59,9 +59,9 @@ docker build . --tag slam:latest --progress=plain
   - 5.4 [Bird's eye view (BEV) projection, using OpenCV library](5_4)
   - 5.5 [Simple monocular visual odometry, using OpenCV library](5_5)
   - 5.6 Triangulation
-  - 5.7 [Triangulation, using OpenCV library](5_6)
+  - 5.7 [Triangulation, using OpenCV library](5_7)
   - 5.8 Perspective-n-Points (PnP) and Direct Linear Transform (DLT)
-  - 5.9 [Fiducial marker tracking, using OpenCV library](5_8)
+  - 5.9 [Fiducial marker tracking, using OpenCV library](5_9)
   - 5.10 RANSAC
   - 5.11 Advanced RANSAC methods (USAC)
   - 5.12 [RANSAC and USAC, using OpenCV and RansacLib libraries](5_12)
@@ -91,8 +91,8 @@ docker build . --tag slam:latest --progress=plain
   - 8.4 CI/CD for Python SLAM projects
   - 8.5 CI/CD for C++ SLAM projects
 - Final projects:
-  - DSP-SLAM
-  - Suma++
+  - [DSP-SLAM]()
+  - [Suma++]()
 
 ## Acknowledgements
 
