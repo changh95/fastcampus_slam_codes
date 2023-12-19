@@ -12,6 +12,7 @@ You can build the base docker image using the following command.
 
 ```shell
 docker build . --tag slam:latest --progress=plain
+echo "xhost +local:docker" >> ~/.profile
 ```
 
 ## Table of contents
