@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
   viewer2.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "cloud");
 
   while (!viewer1.wasStopped() || !viewer2.wasStopped()) {
-    viewer1.spinOnce();
-    viewer2.spinOnce();
+    viewer1.spin();
+    viewer2.spin();
   }
 }
