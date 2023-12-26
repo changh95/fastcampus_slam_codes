@@ -73,3 +73,6 @@ vim configs/config_kitti.json (See below)
 
 ```
 
+## Output
+
+![](./output.gif)
