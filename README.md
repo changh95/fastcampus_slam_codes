@@ -92,7 +92,7 @@ echo "xhost +local:docker" >> ~/.profile
   - 8.4 CI/CD for Python SLAM projects
   - 8.5 CI/CD for C++ SLAM projects
 - Final projects:
-  - [DSP-SLAM]()
+  - [DSP-SLAM](dsp_slam)
   - [Suma++]()
 
 ## Acknowledgements
