@@ -27,7 +27,6 @@ RUN apt-get install -y lsb-release &&\
 RUN apt-get install -y python3-catkin-pkg python3-wstool python3-rosdep ninja-build stow python3-rosinstall python3-rosinstall-generator
 RUN rosdep init && rosdep update
     
-# libqt5libqgtk2 ?
 RUN python3 -m pip install --upgrade pip
 RUN pip install catkin_tools catkin_tools_fetch empy trollius numpy rosinstall_generator
 
@@ -39,7 +38,8 @@ RUN git clone https://github.com/ros/catkin.git &&\
 RUN sed -i 's/builder->setFp16Mode(true)/builder->setFp16Mode(false)/g' /catkin_ws/src/rangenet_lib/src/netTensorRT.cpp
 RUN cd ../ && catkin init &&\
     catkin build rangenet_lib
-RUN git clone https://github.com/changh95/semantic_suma.git &&\
+RUN git clone https://github.com/PRBonn/semantic_suma.git &&\
+    sed -i 's/find_package(Boost REQUIRED COMPONENTS filesystem system)/find_package(Boost 1.65.1 REQUIRED COMPONENTS filesystem system serialization thread date_time regex timer chrono)/g' /catkin_ws/src/semantic_suma/CMakeLists.txt &&\
     catkin init &&\
     catkin deps fetch &&\
     catkin build --save-config -i --cmake-args -DCMAKE_BUILD_TYPE=Release -DOPENGL_VERSION=430 -DENABLE_NVIDIA_EXT=YES
