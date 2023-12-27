@@ -102,7 +102,7 @@ ORB-SLAM 2/3 authors, DynaVINS authors, CubeSLAM authors, HDL-Graph-SLAM authors
 
 ## Contributors
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks goes to these wonderful people ❤️:
 
 - [Juwon Jason Kim](https://github.com/U-AMC), for building the 'Cartographer-KITTI' examples
 - [Hyungtae Lim](https://github.com/LimHyungTae), for his PCL tutorial code snippets 
