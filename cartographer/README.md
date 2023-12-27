@@ -26,3 +26,7 @@ rosrun map_server map_saver -f /data/map
 ## Output
 
 ![](./output.gif)
+
+## Special thanks
+
+Special thanks to [Juwon Jason Kim](https://github.com/U-AMC)
