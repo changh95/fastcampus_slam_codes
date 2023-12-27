@@ -93,9 +93,32 @@ echo "xhost +local:docker" >> ~/.profile
   - 8.5 CI/CD for C++ SLAM projects
 - Final projects:
   - [DSP-SLAM](dsp_slam)
-  - [Suma++]()
+  - [Suma++](suma_plus_plus)
+  - [Cartographer-KITTI](cartographer)
 
 ## Acknowledgements
 
 ORB-SLAM 2/3 authors, DynaVINS authors, CubeSLAM authors, HDL-Graph-SLAM authors, KISS-ICP authors, SHINE-Mapping authors, and all the authors of the libraries used in this repository.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+- [Juwon Jason Kim](https://github.com/U-AMC), for building the 'Cartographer-KITTI' examples
+- [Hyungtae Lim](https://github.com/LimHyungTae), for his PCL tutorial code snippets 
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/U-AMC"><img src="https://avatars.githubusercontent.com/u/43529281?v=4" width="100px;" alt=""/><br /><sub><b>Juwon Jason Kim </b></sub></a><br /><a href="https://github.com/U-AMC" title="GitHub"> :octocat:</a></td>
+    <td align="center"><a href="https://github.com/LimHyungTae"><img src="https://avatars.githubusercontent.com/u/35317311?v=4" width="100px;" alt=""/><br /><sub><b>Hyungtae Lim </b></sub></a><br /><a href="https://github.com/LimHyungTae" title="GitHub">:octocat:</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
