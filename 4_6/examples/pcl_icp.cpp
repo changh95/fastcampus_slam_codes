@@ -112,6 +112,6 @@ int main(int argc, char **argv) {
   viewer1.setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 2, "align_viz");
 
   while (!viewer1.wasStopped()) {
-    viewer1.spin();
+    viewer1.spinOnce();
   }
 }

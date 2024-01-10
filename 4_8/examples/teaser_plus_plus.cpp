@@ -198,5 +198,5 @@ int main() {
     viewer.addPointCloud<pcl::PointXYZRGB>(tgt_colored, "tgt_viz");
     viewer.addPointCloud<pcl::PointXYZRGB>(align_colored, "align_viz");
 
-    viewer.spin();
+    viewer.spinOnce();
 }

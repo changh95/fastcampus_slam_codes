@@ -96,7 +96,7 @@ int main() {
   viewer1.addPointCloud<pcl::PointXYZRGB>(plane_colored, "plane");
 
   while (!viewer1.wasStopped()) {
-    viewer1.spin();
+    viewer1.spinOnce();
   }
 
   return 0;
