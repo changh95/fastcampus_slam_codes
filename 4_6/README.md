@@ -18,8 +18,9 @@ Requirement: PCL
 mkdir build && cd build
 cmake ..
 make -j
-./known_corr_icp
-./pcl_icp
+cd ..
+./build/known_corr_icp
+./build/pcl_icp
 ```
 
 ## Docker build 
@@ -32,8 +33,8 @@ docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:
 
 # Inside docker container
 cd fastcampus_slam_codes/4_6
-./known_corr_icp
-./pcl_icp
+./build/known_corr_icp
+./build/pcl_icp
 ```
 
 ---
