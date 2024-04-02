@@ -15,6 +15,7 @@ Requirement: PCL
 mkdir build && cd build
 cmake ..
 make -j
+cd ..
 ./build/downsampling
 ./build/kdtree
 ./build/passthrough
