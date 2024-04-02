@@ -15,11 +15,11 @@ Requirement: PCL
 mkdir build && cd build
 cmake ..
 make -j
-./downsampling
-./kdtree
-./passthrough
-./sor
-./plane_det
+./build/downsampling
+./build/kdtree
+./build/passthrough
+./build/sor
+./build/plane_det
 ```
 
 ## Docker build 
@@ -32,11 +32,11 @@ docker run -it --env DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix:ro slam:
 
 # Inside docker container
 cd fastcampus_slam_codes/4_4
-./downsampling
-./kdtree
-./passthrough
-./sor
-./plane_det
+./build/downsampling
+./build/kdtree
+./build/passthrough
+./build/sor
+./build/plane_det
 ```
 
 ---
