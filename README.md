@@ -2,8 +2,8 @@
 
 This repository contains code exercises for the following lecture series provided by @changh95 at FastCampus:
 
-- ['Computer Vision, LiDAR processing, and Sensor Fusion for Autonomous Driving']
-- ['SLAM Zero-to-Hero series for Physical AI and 3D Computer Vision']
+- ['Computer Vision, LiDAR processing, and Sensor Fusion for Autonomous Driving'](https://github.com/changh95/fastcampus_slam_codes/tree/main#zero-to-hero-slam-lectures-for-physical-ai-and-3d-computer-vision)
+- ['SLAM Zero-to-Hero series for Physical AI and 3D Computer Vision'](https://github.com/changh95/fastcampus_slam_codes/tree/main#computer-vision-lidar-processing-and-sensor-fusion-for-autonomous-driving)
 
 > Actively reworking the repository now. Stay tuned, because A LOT OF NEW TUTORIALS are on the way!
 
