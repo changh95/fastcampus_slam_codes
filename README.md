@@ -2,6 +2,8 @@
 
 This repository contains code exercises for the following lecture series provided by @changh95 at FastCampus:
 
+> Some rework in progress. Stay tuned, because A LOT of new tutorials are on the way!
+
 - ['Computer Vision, LiDAR processing, and Sensor Fusion for Autonomous Driving'](https://fastcampus.co.kr/data_online_autovehicle)
 ![](./Computer_Vision_LiDAR_Processing_and_Sensor_Fusion_for_Autonomous_Driving/title.png)
 
