@@ -47,21 +47,21 @@ RUN wget https://gitlab.com/libeigen/eigen/-/archive/5.0.0/eigen-5.0.0.zip &&\
     make install &&\
     cd ../../
 
-# Ceres-solver
+# Ceres-solver [Use the latest branch, as latest release (2.2.0) does not support Eigen 5.0.0]
 RUN apt-get install -y libgoogle-glog-dev libgflags-dev libatlas-base-dev libsuitesparse-dev &&\
-    wget https://github.com/ceres-solver/ceres-solver/archive/refs/tags/2.2.0.zip &&\
-    unzip 2.2.0.zip &&\
-    cd ceres-solver-2.2.0 && \
+    git clone https://github.com/ceres-solver/ceres-solver.git --recursive &&\
+    cd ceres-solver && \
     mkdir build && cd build &&\
     cmake .. &&\
     make -j8 &&\
     make install &&\
     cd ../../
 
-# Sophus
+# Sophus [EDIT: Remove 3.4.0 dependency to enable build with Eigen 5.0.0]
 RUN wget https://github.com/strasdat/Sophus/archive/refs/tags/1.24.6.zip &&\
     unzip 1.24.6.zip &&\
     cd Sophus-1.24.6 &&\
+    sed -i 's/find_package(Eigen3 3.4.0/find_package(Eigen3/g' CMakeLists.txt &&\
     mkdir build && cd build &&\
     cmake .. &&\
     make -j8 &&\
@@ -69,18 +69,20 @@ RUN wget https://github.com/strasdat/Sophus/archive/refs/tags/1.24.6.zip &&\
     cd ../../
 
 # Pangolin
-RUN apt-get install -y mesa-utils && \
-    apt-get install -y libgl1-mesa-glx && \
-    apt-get install -y libglu1-mesa-dev && \
-    apt-get install -y libglew-dev &&\
-    apt-get install -y libglvnd-dev &&\
-    apt-get install -y libgl1-mesa-dev &&\
-    apt-get install -y libegl1-mesa-dev &&\
-    apt-get install -y mesa-common-dev
+RUN apt-get update && \
+    apt-get install -y mesa-utils \
+    libgl1 \
+    libglu1-mesa-dev \
+    libglew-dev \
+    libglvnd-dev \
+    libgl1-mesa-dev \
+    libegl1-mesa-dev \
+    mesa-common-dev \
+    libepoxy-dev
 
-RUN wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip &&\
-    unzip v0.6.zip &&\
-    cd Pangolin-0.6 &&\
+RUN wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.9.4.zip &&\
+    unzip v0.9.4.zip &&\
+    cd Pangolin-0.9.4 &&\
     mkdir build && cd build &&\
     cmake .. &&\
     make -j8 &&\
@@ -91,4 +93,4 @@ RUN wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip 
 RUN apt-get install -y libpcl-dev
 
 
-RUN git clone https://github.com/changh95/fastcampus_slam_codes.gits
+RUN git clone https://github.com/changh95/fastcampus_slam_codes.git
