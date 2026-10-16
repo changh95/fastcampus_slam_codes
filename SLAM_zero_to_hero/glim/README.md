@@ -28,6 +28,17 @@ The image uses CUDA 12.9.1 for sm_120 (RTX 5090), GTSAM 4.2.0, gtsam_points v1.0
 
 ## Run — Korea_drive with the viewer (default)
 
+Two viewer configs differ only in the bag's `playback_speed`:
+
+| Option | `config_path` | `playback_speed` | Full drive takes |
+|---|---|---|---|
+| **A. Real time** (default) | `/usr/local/share/glim_korea/config_viewer` | 1.0 | 27 min, the speed the car drove |
+| **B. As fast as possible** | `/usr/local/share/glim_korea/config_viewer_fast` | 0.0 | **5.4 min** (5.1× real time: 7–9× at the start, ~5× later as submaps accumulate) |
+
+Option B over the full bag (2026-10-16): 16,367 poses, exit 0, ATE vs GNSS **4.13 m rmse 2D** / 18.8 m 3D (`traj_lidar`), in line with the full-bag result below (4.58 m 2D); the 3D residual is the same unclosed height drift.
+
+**Option A — real time (1.0):**
+
 ```bash
 mkdir -p results/korea_drive
 podman run --rm \
@@ -40,7 +51,23 @@ podman run --rm \
   glim_rosbag /bag --ros-args -p config_path:=/usr/local/share/glim_korea/config_viewer -p auto_quit:=true
 ```
 
-An iridescence window (`screen`) shows the current scan, the odometry keyframes and the growing submap map, with a top-down `submap` inset. The viewer config plays the bag in **real time** (27 min for the full drive); see [Smooth viewer](#smooth-viewer--what-was-tuned-and-why). With `auto_quit:=true` the process saves the map to `results/korea_drive/` and exits when the bag ends. Drop it to keep the window open afterwards; you then stop the process with Ctrl-C, and the map is still saved. No `xhost` and no `--net=host` are needed (rootless podman).
+**Option B — unthrottled (0.0):**
+
+```bash
+mkdir -p results/korea_drive
+podman run --rm \
+  --runtime=/usr/bin/nvidia-container-runtime \
+  -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics \
+  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v ~/data/Korea_drive/KOREA_DRIVE:/bag:ro \
+  -v "$PWD/results/korea_drive":/tmp/dump \
+  slam_zero_to_hero:glim \
+  glim_rosbag /bag --ros-args -p config_path:=/usr/local/share/glim_korea/config_viewer_fast -p auto_quit:=true
+```
+
+Option B reads the bag as fast as GPU odometry keeps up (about 10 ms per 100 ms scan), so the map builds in bursts rather than at driving speed. Use A to watch the drive, B to get the map quickly. Both use the same GPU VGICP pipeline (`libodometry_estimation_gpu.so`, `VGICP_GPU` factors).
+
+An iridescence window (`screen`) shows the current scan, the odometry keyframes and the growing submap map, with a top-down `submap` inset. Option A plays the bag in **real time** (27 min for the full drive); see [Smooth viewer](#smooth-viewer--what-was-tuned-and-why). With `auto_quit:=true` the process saves the map to `results/korea_drive/` and exits when the bag ends. Drop it to keep the window open afterwards; you then stop the process with Ctrl-C, and the map is still saved. No `xhost` and no `--net=host` are needed (rootless podman).
 
 For a **headless** run, use `config_path:=/usr/local/share/glim_korea/config` and leave out the `DISPLAY`/X11 lines.
 
@@ -111,7 +138,7 @@ GLIM itself was never the bottleneck. Odometry needs about 10 ms of the 100 ms s
 
 | Dataset | Config | Status |
 |---|---|---|
-| **Korea_drive** — ROS 2 bag, 27 min drive (Hesai 109k pts/scan + 100 Hz IMU + GNSS) | `/usr/local/share/glim_korea/config_viewer` (viewer) or `…/config` (headless) | ✅ **default**: 16,367 poses over 11.0 km, ATE **4.6 m 2D** / 12.9 m 3D vs GNSS; the viewer config keeps up at real time (README command re-verified on 600 s: ATE 2.38 m 2D) |
+| **Korea_drive** — ROS 2 bag, 27 min drive (Hesai 109k pts/scan + 100 Hz IMU + GNSS) | `/usr/local/share/glim_korea/config_viewer` (viewer, real time), `…/config_viewer_fast` (viewer, unthrottled) or `…/config` (headless) | ✅ **default**: 16,367 poses over 11.0 km, ATE **4.6 m 2D** / 12.9 m 3D vs GNSS; the viewer config keeps up at real time (README command re-verified on 600 s: ATE 2.38 m 2D) |
 | KITTI odometry seq 04 | `glim_kitti /usr/local/share/glim_kitti/config` | ✅ 261 poses, 376.6 m estimated path (ground truth 393.7 m), ATE mean 2.60 m / rmse 3.57 m (`odom_lidar`) |
 | KITTI odometry seq 00 | same, or `config_posegraph` | ✅ 4531 poses, 3708 m, ATE 11.5 m (10.2 m with `config_posegraph`) |
 | KITTI, CUDA path | `config_gpu` | ✅ same accuracy, no speedup: GPU odometry needs an IMU, which KITTI lacks |
