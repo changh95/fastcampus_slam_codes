@@ -70,6 +70,18 @@ Verified 2026-09-28: the command above, run with `-n 600` on the host X display 
 
 ![Desktop viewer, KITTI 00](results/viewer/desktop_000600.png)
 
+#### Odometry only: `kiss_icp_pipeline`
+
+The same image also runs plain KISS-ICP (no loop closure, no pose graph). Swap the last line of the command above for:
+
+```bash
+  kiss_icp_pipeline --visualize --dataloader kitti --sequence 00 /data
+```
+
+This viewer is polyscope, not Open3D; the image installs it (`polyscope==2.6.1`) because kiss-icp only pulls it in through its `[all]` extra. Like the KISS-SLAM viewer, it starts playing (`-e KISS_ICP_AUTOPLAY=0` restores the paused start); the on-screen buttons double as keys: `space` pause/resume, `n` next frame, `g` local/global view, `c` re-centre, `s` screenshot, `q` quit.
+
+Verified 2026-10-16: `-n 30` under Xvfb opened the polyscope window (Mesa OpenGL 4.5) and ran to the end without a key press.
+
 ### Headless screenshots
 
 `scripts/capture_viewer.py` runs the same pipeline with the same viewer, but auto-plays it. Inside its own Xvfb (Mesa llvmpipe, no GPU), it saves the window every `CAPTURE_EVERY` frames and once more on the last frame:
