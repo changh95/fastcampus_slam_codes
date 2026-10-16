@@ -196,6 +196,8 @@ RUN printf '#!/bin/bash\n. /opt/ros/%s/setup.bash\nexport AMENT_PREFIX_PATH=/usr
 #    to ROS topics nobody subscribes to.
 #  * plays the bag in real time (playback_speed 1.0) so the map builds at the
 #    speed the car drove; the headless set keeps 0.0 (unthrottled).
+# config_viewer_fast is the same viewer set with playback_speed 0.0: the bag is
+# read as fast as GLIM keeps up (~7-9x real time at the start of Korea_drive).
 # enable_partial_rendering (config_viewer.json) is already true in the source.
 COPY config_korea /usr/local/share/glim_korea/config
 RUN cp -r /usr/local/share/glim_korea/config /usr/local/share/glim_korea/config_viewer && \
@@ -203,6 +205,10 @@ RUN cp -r /usr/local/share/glim_korea/config /usr/local/share/glim_korea/config_
            -e 's|"playback_speed": 0.0|"playback_speed": 1.0|' \
       /usr/local/share/glim_korea/config_viewer/config_ros.json && \
     grep -q '"extension_modules": \["libstandard_viewer.so"\]' /usr/local/share/glim_korea/config_viewer/config_ros.json && \
-    grep -q '"playback_speed": 1.0' /usr/local/share/glim_korea/config_viewer/config_ros.json
+    grep -q '"playback_speed": 1.0' /usr/local/share/glim_korea/config_viewer/config_ros.json && \
+    cp -r /usr/local/share/glim_korea/config_viewer /usr/local/share/glim_korea/config_viewer_fast && \
+    sed -i 's|"playback_speed": 1.0|"playback_speed": 0.0|' \
+      /usr/local/share/glim_korea/config_viewer_fast/config_ros.json && \
+    grep -q '"playback_speed": 0.0' /usr/local/share/glim_korea/config_viewer_fast/config_ros.json
 
 WORKDIR /data
