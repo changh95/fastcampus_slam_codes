@@ -152,7 +152,7 @@ The view-controller plugins live in [`rviz_unified_controls/`](rviz_unified_cont
     - [Cartographer](cartographer) — Hilti 2022 exp21_outside_building
     - [KISS-SLAM](kiss_slam) — KITTI odometry 00 (LiDAR)
     - [GLIM](glim) — Korea_drive ROS 2 bag (GPU)
-    - [FAST-LIO2](fast_lio2) — Hilti 2022 exp14_basement_2
+    - [FAST-LIO2](fast_lio2) — Hilti 2022 exp21_outside_building
     - [FAST-LIVO2](fast_livo2) — FAST-LIVO2-Dataset Retail_Street
 - Chapter 5: Advanced SLAM - AI Integration and Hardware Optimization
   - Chapter 1: AI + SLAM

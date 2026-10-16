@@ -26,8 +26,8 @@ Visualization Manager:
       Color Transformer: AxisColor
       Axis: Z
       Autocompute Value Bounds: false
-      Min Value: -1.5
-      Max Value: 4.5
+      Min Value: -8
+      Max Value: 1.8
       Use Fixed Frame: true
       Use rainbow: true
       Invert Rainbow: true
@@ -40,7 +40,7 @@ Visualization Manager:
       Topic: /path
       Queue Size: 10
       Line Style: Billboards
-      Line Width: 0.3
+      Line Width: 0.8
       Color: 255; 40; 200
       Alpha: 1
       Buffer Length: 1
@@ -69,10 +69,10 @@ Visualization Manager:
       Name: Current View
       Target Frame: <Fixed Frame>
       Focal Point:
-        X: 2.4
-        Y: -10.6
-        Z: 1.2
-      Distance: 34
+        X: 20.8
+        Y: 10.5
+        Z: 0
+      Distance: 110
       Invert Z Axis: true
       Pitch: 1.35
       Yaw: 3.14

@@ -22,7 +22,7 @@ The image bakes `ros:noetic`, Livox-SDK v1 (`9306596`), `livox_ros_driver` (`3d2
 
 ## Verified run — Hilti 2022 `exp14_basement_2.bag`
 
-Hesai PandarXT-32 on `/hesai/pandar` + Alphasense IMU on `/alphasense/imu`, 74 s handheld basement walk. Nothing is baked into the image; the config, launch file, and helper scripts are bind-mounted, so no rebuild is needed to change them.
+The default bag is now `exp21_outside_building.bag` (see the README for its numbers); this section is the indoor sequence, run with `-e BAG=/data/exp14_basement_2.bag`. Hesai PandarXT-32 on `/hesai/pandar` + Alphasense IMU on `/alphasense/imu`, 74 s handheld basement walk. Nothing is baked into the image; the config, launch file, and helper scripts are bind-mounted, so no rebuild is needed to change them.
 
 ```bash
 mkdir -p results/fullA
@@ -33,13 +33,13 @@ timeout 900 podman run --rm \
   -v "$PWD/launch/mapping_hilti.launch":/catkin_ws/src/FAST_LIO/launch/mapping_hilti.launch:ro \
   -v "$PWD/scripts":/scripts:ro \
   -v "$PWD/run_hilti_offline.sh":/run.sh:ro \
-  -e RATE=1.0 -e SAVE_PCD=1 -e CONFIG=hilti_pandarxt32 \
+  -e RATE=1.0 -e SAVE_PCD=1 -e CONFIG=hilti_pandarxt32 -e BAG=/data/exp14_basement_2.bag \
   localhost/slam_zero_to_hero:fast_lio2 bash /run.sh
 ```
 
 `run_hilti_offline.sh` starts a container-private `roscore`, launches `mapping_hilti.launch` headless, logs `/Odometry` to TUM format while `rosbag play` streams the bag at real time, then SIGINTs the node so it flushes its map and pose log. **No `--net=host`** — the ROS master lives in the container's own network namespace, so several ROS containers can run at once without fighting over port 11311.
 
-Env knobs: `RATE` (playback rate), `DURATION` (seconds, empty = whole bag; `-e DURATION=20` gives a ~57 s smoke test), `CONFIG`, `SAVE_PCD`, `RELAY`.
+Env knobs: `BAG`, `RATE` (playback rate), `DURATION` (seconds, empty = whole bag; `-e DURATION=20` gives a ~57 s smoke test), `CONFIG`, `SAVE_PCD`, `RELAY`.
 
 Outputs in `results/fullA/`:
 
@@ -75,11 +75,11 @@ The same Hugging Face repo hosts the bag (`rosbags/exp14_basement_2.bag`, 6,260,
 
 ## Headless screenshots (SCREENSHOT=1)
 
-`SCREENSHOT=1` makes `run_hilti_offline.sh` start `Xvfb :99` inside the container, launch rviz with `config/hilti.rviz` (bind-mounted as `rviz_cfg/hilti.rviz`) rendered by mesa llvmpipe, and grab the root window with `xwd | convert` 35 s into playback (`rviz_midway.png`) and after the 10 s drain (`rviz_map.png`). No host X server or GPU is involved. rviz only manages 0–1 fps in software, so `/cloud_registered` has `Queue Size: 200` to keep scans from being dropped out of the accumulated (Decay 1000 s) map. The view uses `Invert Z Axis: true` because the world frame is z-down (see Gotchas); map alpha is 0.35 so the ceiling does not hide the magenta `/path`. `DISABLE_ROS1_EOL_WARNINGS=1` is exported by the script — without it rviz opens a modal "ROS Noetic goes end-of-life" dialog over the map.
+`SCREENSHOT=1` makes `run_hilti_offline.sh` start `Xvfb :99` inside the container, launch rviz with `config/hilti.rviz` (bind-mounted as `rviz_cfg/hilti.rviz`) rendered by mesa llvmpipe, and grab the root window with `xwd | convert` `SHOT_AT` seconds (default 75) into playback (`rviz_midway.png`) and after the 10 s drain (`rviz_map.png`). No host X server or GPU is involved. rviz only manages 0–1 fps in software, so `/cloud_registered` has `Queue Size: 200` to keep scans from being dropped out of the accumulated (Decay 1000 s) map. The view uses `Invert Z Axis: true` because the world frame is z-down (see Gotchas); map alpha is 0.35 so the ceiling does not hide the magenta `/path`. `hilti.rviz` is framed for exp21 (focal point 20.8, 10.5, 0 at 110 m; height colours -8 to 1.8 m, from the 1st–99th percentile of the saved map's z). `hilti_exp14.rviz` keeps the basement framing (focal point 2.4, -10.6, 1.2 at 34 m; colours -1.5 to 4.5 m). `DISABLE_ROS1_EOL_WARNINGS=1` is exported by the script — without it rviz opens a modal "ROS Noetic goes end-of-life" dialog over the map.
 
 ## Watching it run (GUI on your desktop)
 
-Set `RVIZ=true` and add the X11 + GPU flags. `mapping_hilti.launch` then starts rviz with `config/hilti.rviz` when it is mounted (else FAST_LIO's own `rviz_cfg/loam_livox.rviz`; override with `RVIZ_CFG`), so you watch the point cloud accumulate and the body frame move as the bag plays:
+Set `RVIZ=true` and add the X11 + GPU flags. `mapping_hilti.launch` then starts rviz with `config/hilti_gui.rviz` when it is mounted (else FAST_LIO's own `rviz_cfg/loam_livox.rviz`; override with `RVIZ_CFG`), so you watch the point cloud accumulate and the body frame move as the bag plays:
 
 ```bash
 mkdir -p results/gui
@@ -91,7 +91,7 @@ timeout 900 podman run --rm \
   -v ~/data/hilti_2022:/data:ro \
   -v "$PWD/results/gui":/out \
   -v "$PWD/config/hilti_pandarxt32.yaml":/catkin_ws/src/FAST_LIO/config/hilti_pandarxt32.yaml:ro \
-  -v "$PWD/config/hilti.rviz":/catkin_ws/src/FAST_LIO/rviz_cfg/hilti.rviz:ro \
+  -v "$PWD/config/hilti_gui.rviz":/catkin_ws/src/FAST_LIO/rviz_cfg/hilti_gui.rviz:ro \
   -v "$PWD/launch/mapping_hilti.launch":/catkin_ws/src/FAST_LIO/launch/mapping_hilti.launch:ro \
   -v "$PWD/scripts":/scripts:ro \
   -v "$PWD/run_hilti_offline.sh":/run.sh:ro \
@@ -100,6 +100,8 @@ timeout 900 podman run --rm \
 ```
 
 `rviz` is installed for exactly this (it is not in `ros:noetic`), and renders on the RTX 5090 via the `--runtime` flags — without them it falls back to software GL. **No `xhost` change and no `--net=host` are needed**: podman here is rootless, so container root maps to your uid, which X already authorizes, and the connection goes over the bind-mounted socket.
+
+**Why the live view used to feel slow.** The GUI run used to open `hilti.rviz`, the screenshot config, whose `Frame Rate: 5` is there to keep llvmpipe cheap. On the GPU that capped redraws at 5 fps, so orbiting the camera stuttered even though the mapper kept up (6 ms per scan). `hilti_gui.rviz` differs only in `Frame Rate: 30` and in the camera following `body` (focal point 0, 0, 0 at 45 m). The map stays dense on purpose: `dense_publish_en: true` sends every undistorted point (after `point_filter_num: 3`, about 17 k per scan), and with `Decay Time: 1000` rviz keeps all of them. That is about 13 M points by the end of exp14 and 26 M by the end of exp21, so frame time still grows towards the end of the walk. Lowering *Decay Time*, or `dense_publish_en: false` (voxel-downsampled scan, a few thousand points), are the knobs if a slower GPU or a remote-desktop session cannot keep up. Neither changes the trajectory; `scans.pcd` is written from the undistorted scan regardless of `dense_publish_en`.
 
 `XDG_RUNTIME_DIR` only silences rviz's `QStandardPaths: XDG_RUNTIME_DIR not set` warning. To confirm the window mapped, use `xwininfo -root -tree | grep -i rviz` — `-root -children` shows only a stray `Tool Properties` dock and reads as a failed launch.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run FAST-LIO2 headless on the Hilti 2022 exp14_basement_2 bag.
+# Run FAST-LIO2 on a Hilti 2022 bag (default: exp21_outside_building).
 # Mounts expected inside the container:
 #   /data                bag dir, read-only
 #   /out                 writable results dir
@@ -7,16 +7,18 @@
 #   /catkin_ws/src/FAST_LIO/launch/mapping_hilti.launch    (bind-mounted)
 #   /scripts/odom_to_tum.py                                (bind-mounted)
 # Env:
-#   BAG=/data/exp14_basement_2.bag   RATE=1.0   DURATION=   (empty = whole bag)
+#   BAG=/data/exp21_outside_building.bag   RATE=1.0   DURATION=   (empty = whole bag)
 #   CONFIG=hilti_pandarxt32          SAVE_PCD=0
-#   RVIZ=false   RVIZ_CFG=  (default: rviz_cfg/hilti.rviz if mounted, else loam_livox.rviz)
+#   RVIZ=false   RVIZ_CFG=  (default: rviz_cfg/hilti_gui.rviz for RVIZ=true,
+#                           rviz_cfg/hilti.rviz for SCREENSHOT=1; else loam_livox.rviz)
 #   SCREENSHOT=0 (1 = rviz on a private Xvfb, PNGs to /out/rviz_*.png; no host X needed)
+#   SHOT_AT=75   (seconds into playback for rviz_midway.png)
 # Outputs in /out: fastlio_traj_tum.txt, odometry_raw.csv, fastlio_stdout.log,
 #                  pos_log.txt, (optional) scans.pcd
 
 set -uo pipefail
 
-BAG="${BAG:-/data/exp14_basement_2.bag}"
+BAG="${BAG:-/data/exp21_outside_building.bag}"
 RATE="${RATE:-1.0}"
 DURATION="${DURATION:-}"
 CONFIG="${CONFIG:-hilti_pandarxt32}"
@@ -24,7 +26,13 @@ SAVE_PCD="${SAVE_PCD:-0}"
 RELAY="${RELAY:-0}"
 RVIZ="${RVIZ:-false}"
 SCREENSHOT="${SCREENSHOT:-0}"
-RVIZ_CFG="${RVIZ_CFG:-/catkin_ws/src/FAST_LIO/rviz_cfg/hilti.rviz}"
+SHOT_AT="${SHOT_AT:-75}"
+# Live GUI: 30 fps, camera follows the body. Screenshots: 5 fps (llvmpipe), fixed overview.
+if [ "$SCREENSHOT" = "1" ]; then
+  RVIZ_CFG="${RVIZ_CFG:-/catkin_ws/src/FAST_LIO/rviz_cfg/hilti.rviz}"
+else
+  RVIZ_CFG="${RVIZ_CFG:-/catkin_ws/src/FAST_LIO/rviz_cfg/hilti_gui.rviz}"
+fi
 [ -f "$RVIZ_CFG" ] || RVIZ_CFG=/catkin_ws/src/FAST_LIO/rviz_cfg/loam_livox.rviz
 
 if [ "$SCREENSHOT" = "1" ]; then
@@ -95,7 +103,7 @@ SECONDS=0
 if [ "$SCREENSHOT" = "1" ]; then
   rosbag play "${PLAY_ARGS[@]}" >/out/rosbag_play.log 2>&1 &
   PLAY_PID=$!
-  sleep 35 && kill -0 $PLAY_PID 2>/dev/null && shot rviz_midway.png
+  sleep "$SHOT_AT" && kill -0 $PLAY_PID 2>/dev/null && shot rviz_midway.png
   wait $PLAY_PID
 else
   rosbag play "${PLAY_ARGS[@]}" >/out/rosbag_play.log 2>&1
