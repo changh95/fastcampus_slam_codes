@@ -82,10 +82,39 @@ podman run --rm --network=host \
     --feat-dir /weights/run/saved-feat --data-dir /data --queries sofa table
 ```
 
-For the interactive upstream demos (type a query / click a point in an Open3D window),
-add `-it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix` and run
-`python demo_text_query.py --load-path /weights/run/saved-map` (not tested here; the headless
-`query.sh` above is what was verified).
+## View in a GUI
+
+**Open the saved recording.** After a run, open the recording on the host. It shows one 3D
+view per layer: the RGB map with the GT path, then one heatmap per query.
+
+```bash
+rerun ~/data/concept_fusion/run/concept_fusion.rrd
+```
+
+**Stream live.** Start the viewer on the host first. It listens on port 9876. Then run the
+full demo or the query-only command above. `text_query.py` detects the viewer and streams to
+it ("Streaming to rerun viewer at ..."). If no viewer is listening, it only writes the `.rrd`.
+
+```bash
+rerun &
+# then the query-only podman run above, e.g. with --queries lamp chair window
+```
+
+**Interactive upstream demo (not tested).** In upstream `demo_text_query.py`, you type a
+query or click a point in an Open3D window. It needs X11 forwarding:
+
+```bash
+xhost +local:
+podman run --rm -it --network=host \
+  --runtime=/usr/bin/nvidia-container-runtime \
+  -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics \
+  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v ~/data/icl_nuim:/data:ro -v ~/data/concept_fusion:/weights \
+  localhost/slam_zero_to_hero:concept_fusion \
+  python demo_text_query.py --load-path /weights/run/saved-map
+```
+
+The headless `query.sh` path above is the one that was verified.
 
 ## Results
 
