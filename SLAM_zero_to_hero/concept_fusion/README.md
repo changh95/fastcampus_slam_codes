@@ -100,6 +100,41 @@ rerun &
 # then the query-only podman run above, e.g. with --queries lamp chair window
 ```
 
+**Watch the scan and the reconstruction (end to end).** The two commands above only show
+the finished map. `run_demo.sh` runs the stages in sequence: all SAM masks, then all OpenCLIP
+features, then all fusion. Nothing exists to show until the end. `scripts/live_demo.py`
+runs the same three steps one frame at a time and logs each frame to rerun:
+
+```bash
+rerun &
+podman run --rm --network=host \
+  --runtime=/usr/bin/nvidia-container-runtime \
+  -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABILITIES=compute,utility,graphics \
+  -v ~/data/icl_nuim:/data:ro -v ~/data/concept_fusion:/weights \
+  localhost/slam_zero_to_hero:concept_fusion \
+  python /opt/cf_tools/live_demo.py --queries sofa table
+```
+
+![rerun, live_demo.py at frame 420: growing map, fused CLIP features, SAM masks, depth, per-frame "sofa" query](results/rerun_live.png)
+
+| View | What it shows |
+|---|---|
+| Reconstruction (RGB) | The fused point cloud growing frame by frame, the camera frustum with the current image, and the GT path so far |
+| Fused CLIP features (PCA) / Map: "&lt;query&gt;" | The same map coloured by its 1024-D embeddings (3-component PCA) or by similarity to each query |
+| RGB + SAM masks | The input frame with SAM's automatic masks overlaid |
+| Depth | The input depth |
+| Pixel-aligned CLIP (PCA) | The frame's feature map at 160×120. Each SAM region gets a single feature, so the regions show as flat colours |
+| Frame: "&lt;query&gt;" | That feature map scored against each query. Similarity is min-max normalised per frame, so a frame without a sofa still shows its "most sofa-like" region |
+
+The PCA basis is fitted on the first frame and then kept fixed, so colours mean the same
+thing on every frame. The run is not real-time. Each frame takes about 1.9 s for SAM and
+1.7 s for OpenCLIP, which is 159 s for the 44 frames. To review a run, scrub the `frame`
+timeline afterwards, or open `~/data/concept_fusion/run_live/concept_fusion_live.rrd` (390 MB:
+the map is logged every frame). The final map, `run_live/saved-map`, is the same
+258,122-point map as the staged run. To query it, pass `--load-path /weights/run_live/saved-map`
+to `query.sh`. Other options: `--stride`, `--frame-end`, `--sequence`, `--work-dir`,
+`--no-stream`.
+
 **Interactive upstream demo (not tested).** In upstream `demo_text_query.py`, you type a
 query or click a point in an Open3D window. It needs X11 forwarding:
 
